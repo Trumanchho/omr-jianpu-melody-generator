@@ -4,7 +4,7 @@ import time
 
 #songs
 songs = {
-    "twinkle": "1 1 5 5 6 6 5 4 4 3 3 2 2 1",
+    "twinkle": "1 1 5 5 6 6 5- 4 4 3 3 2 2 1",
 
 }
 
@@ -86,6 +86,6 @@ def play_notes(token_arr, duration):
 # Input: a string of numbers 1-7
 if __name__ == "__main__":
     #user_input = input("Enter a string of numbers (1-7) to play notes: ")
-    parsed = split_string(songs["hc24p21"])
+    parsed = split_string(songs["twinkle"])
     transpose(3)
     play_notes(parsed, .8)
