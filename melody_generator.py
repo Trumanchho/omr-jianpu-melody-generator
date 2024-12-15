@@ -5,6 +5,7 @@ import time
 #songs
 songs = {
     "twinkle": "1 1 5 5 6 6 5- 4 4 3 3 2 2 1",
+    "hc24p80" : "---5lu5lu3u3.3u4u3u26l-. 1u7l.1u2.5lu3--. 5lu5lu3u3.3u4u3u2u6-. 6u6u6u5-.2u2u2u1-- 1w1w1u6u6-7u.6w5--. 3u6u5.123--. 1w1w1u6u6..6w7u6u53u.2w1- 4.3u21u2u5--- 4.3u2u.2w1u7lu1--. 1u1u6u6-7u6u53u2u1. 5lu1u1u3u2----. 5lu5lu7lu7lu7l-2u7lu1------.2u4u4u6-5u7u1h---"
 
 }
 
@@ -39,14 +40,44 @@ def split_string(string):
         tokens.append(token)
     return tokens
 
-def play_notes(token_arr, duration):
-    """
-    Play MIDI notes corresponding to numbers 1-7.
-
-    :param note_string: String of numbers '1-7' representing notes
-    :param duration: Duration to play each note (in seconds)
-    """
+def generate_midi_file(token_arr, duration):
     tempo = duration
+        # Create a new MIDI file with a single track
+    midi = MidiFile()
+    track = MidiTrack()
+    midi.tracks.append(track)
+
+    track.append(Message('program_change', program=0, time=0))  # Set instrument to Acoustic Grand Piano
+
+    prev_duration = tempo
+    for token in token_arr:
+        duration = tempo
+
+        if token[0] in note_map:
+            note = note_map[token[0]]
+            if len(token) > 1:
+                if 'h' in token:
+                    note += 12
+                elif 'l' in token:
+                    note -= 12
+                if 'u' in token:
+                    duration /= 2
+                elif 'w' in token:
+                    duration /= 4
+
+            track.append(Message('note_on', note=note, velocity=64, time=0))
+            track.append(Message('note_off', note=note, velocity=64, time=int( 480*duration)))
+        elif token[0] == '-':
+            track.append(Message('note_off', note=0, velocity=0, time=int( 480*prev_duration)))
+        elif token[0] == '.':
+            track.append(Message('note_off', note=0, velocity=0, time=int( 480*prev_duration/2)))
+        else:
+            print(f"Invalid character '{token}' in input. Skipping.")
+        prev_duration = duration
+    midi.save('output_midi/song.mid')
+
+def play_notes(token_arr, duration):
+    tempo = duration/2
     # List available MIDI output ports
     output_names = mido.get_output_names()
     if not output_names:
@@ -57,17 +88,12 @@ def play_notes(token_arr, duration):
 
     # Open the MIDI output port
     with open_output(port_name) as output:
-        # Create a new MIDI file with a single track
-        midi = MidiFile()
-        track = MidiTrack()
-        midi.tracks.append(track)
-
-        track.append(Message('program_change', program=0, time=0))  # Set instrument to Acoustic Grand Piano
 
         # Play each note in the input string and write to MIDI file
+        prev_duration = tempo
+        
         for token in token_arr:
-            duration = tempo/2
-            midi_duration = tempo
+            duration = tempo
 
             if token[0] in note_map:
                 note = note_map[token[0]]
@@ -83,23 +109,19 @@ def play_notes(token_arr, duration):
                 output.send(Message('note_on', note=note, velocity=64))
                 time.sleep(duration)
                 output.send(Message('note_off', note=note, velocity=64))
-
-                track.append(Message('note_on', note=note, velocity=64, time=0))
-                track.append(Message('note_off', note=note, velocity=64, time=int( 480*midi_duration)))
             elif token[0] == '-':
-                time.sleep(duration)
-                track.append(Message('note_off', note=0, velocity=0, time=int( 480*midi_duration)))
+                time.sleep(prev_duration)
             elif token[0] == '.':
-                time.sleep(duration / 2)
-                track.append(Message('note_off', note=0, velocity=0, time=int( 480*midi_duration/2)))
+                time.sleep(prev_duration / 2)
             else:
-                print(f"Invalid character '{token}' in input. Skipping.") 
-        midi.save('output_midi/song.mid')
+                print(f"Invalid character '{token}' in input. Skipping.")
+            prev_duration = duration
             
 
 # Input: a string of numbers 1-7
 if __name__ == "__main__":
     #user_input = input("Enter a string of numbers (1-7) to play notes: ")
-    parsed = split_string(songs["twinkle"])
+    parsed = split_string(songs["hc24p80"])
     transpose(0)
-    play_notes(parsed, 1)
+    generate_midi_file(parsed, 1) # 1 = 120bpm, 2 = 60bpm, 1.5 = 90bpm
+    play_notes(parsed, 1) 
