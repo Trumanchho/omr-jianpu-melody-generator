@@ -37,7 +37,6 @@ def split_string(string):
             token += string[i]
             i += 1
         tokens.append(token)
-    print(tokens)
     return tokens
 
 def play_notes(token_arr, duration):
@@ -58,8 +57,14 @@ def play_notes(token_arr, duration):
 
     # Open the MIDI output port
     with open_output(port_name) as output:
-        mid = MidiFile()
+        # Create a new MIDI file with a single track
+        midi = MidiFile()
         track = MidiTrack()
+        midi.tracks.append(track)
+
+        track.append(Message('program_change', program=0, time=0))  # Set instrument to Acoustic Grand Piano
+
+        # Play each note in the input string and write to MIDI file
         for token in token_arr:
             duration = tempo
             if token[0] in note_map:
@@ -74,18 +79,25 @@ def play_notes(token_arr, duration):
                     elif 'w' in token:
                         duration /= 4
                 output.send(Message('note_on', note=note, velocity=64))
-                time.sleep(duration)  # Hold note for duration
+                time.sleep(duration)
                 output.send(Message('note_off', note=note, velocity=64))
+
+                track.append(Message('note_on', note=note, velocity=64, time=0))
+                track.append(Message('note_off', note=note, velocity=64, time=int(960 * duration)))
             elif token[0] == '-':
                 time.sleep(duration)
+                track.append(Message('note_off', note=0, velocity=0, time=int(960 * duration)))
             elif token[0] == '.':
                 time.sleep(duration / 2)
+                track.append(Message('note_off', note=0, velocity=0, time=int(960 * duration/2)))
             else:
                 print(f"Invalid character '{token}' in input. Skipping.")
+        midi.save('output_midi/song.mid')
+            
 
 # Input: a string of numbers 1-7
 if __name__ == "__main__":
     #user_input = input("Enter a string of numbers (1-7) to play notes: ")
     parsed = split_string(songs["twinkle"])
     transpose(3)
-    play_notes(parsed, .8)
+    play_notes(parsed, .6)
