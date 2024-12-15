@@ -4,9 +4,7 @@ import time
 
 #songs
 songs = {
-    "sol1p132": "1u2u 35-5u6uw 52-3u2u 1.2u3.1u 5--. 5u 4-.4u3u2u 321- -4u3u4.5u 2--1u2u 35-5u6uw 52-3u2u 1.2u3.6u 5--.5u 4-.4u3u2u 351h- -1hu7u6.7u 1h--- -1h76 3--- -653 2--- -6lu7lu1u6lu1u2u 3--- -6l16l 5--- -1h76 3--- -676 5--- -1u2u3.5u 5--- -04u3u2.1u 1---",
-    "hc23p50" : "5u4u3.2u352-.4u3u2u11u7lu123--1u7lu6l7lu1u22u6u53u2u1.4u4.3u452-. 5lu5u4u3.2u352-.4u3u2u1.7lu123--1u7lu6l7lu1u22u6u53u2u1-4u43u4u3u4u6u65------1h-7.6u5---6.6u5.4u3--3u2u12u3-1hu765-6-5.4u5---1h-7.6u5---6u66u5.4u3--3u2u12u3.1hu1hu76u5-.66u6u5u54u5-321---",
-    "hc24p21" : "5.3u21u6lu5l6lu3lu5l- 5l.1u6l1u2u36u5u3- 2.3u5u3u21.3u2u1u6l 5l1u2u32u1u6l--- 5.3u21u6lu5l6lu3lu5l- 35u6u32u1u6l--- 61hu6u56u5u35u3u2- 5lu6lu1u2u35u6u25u3u1-"
+    "twinkle": "1 1 5 5 6 6 5 4 4 3 3 2 2 1",
 
 }
 
