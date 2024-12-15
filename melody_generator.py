@@ -5,8 +5,6 @@ import time
 #songs
 songs = {
     "twinkle": "1 1 5 5 6 6 5- 4 4 3 3 2 2 1",
-    "hc24p80" : "---5lu5lu3u3.3u4u3u26l-. 1u7l.1u2.5lu3--. 5lu5lu3u3.3u4u3u2u6-. 6u6u6u5-.2u2u2u1-- 1w1w1u6u6-7u.6w5--. 3u6u5.123--. 1w1w1u6u6..6w7u6u53u.2w1- 4.3u21u2u5--- 4.3u2u.2w1u7lu1--. 1u1u6u6-7u6u53u2u1. 5lu1u1u3u2----. 5lu5lu7lu7lu7l-2u7lu1------.2u4u4u6-5u7u1h---"
-
 }
 
 # Map numbers 1-7 to MIDI note values (C4-B4)
@@ -121,7 +119,7 @@ def play_notes(token_arr, duration):
 # Input: a string of numbers 1-7
 if __name__ == "__main__":
     #user_input = input("Enter a string of numbers (1-7) to play notes: ")
-    parsed = split_string(songs["hc24p80"])
+    parsed = split_string(songs["twinkle"])
     transpose(0)
     generate_midi_file(parsed, 1) # 1 = 120bpm, 2 = 60bpm, 1.5 = 90bpm
     play_notes(parsed, 1) 
