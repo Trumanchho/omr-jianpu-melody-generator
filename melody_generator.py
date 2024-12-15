@@ -66,7 +66,9 @@ def play_notes(token_arr, duration):
 
         # Play each note in the input string and write to MIDI file
         for token in token_arr:
-            duration = tempo
+            duration = tempo/2
+            midi_duration = tempo
+
             if token[0] in note_map:
                 note = note_map[token[0]]
                 if len(token) > 1:
@@ -83,15 +85,15 @@ def play_notes(token_arr, duration):
                 output.send(Message('note_off', note=note, velocity=64))
 
                 track.append(Message('note_on', note=note, velocity=64, time=0))
-                track.append(Message('note_off', note=note, velocity=64, time=int(960 * duration)))
+                track.append(Message('note_off', note=note, velocity=64, time=int( 480*midi_duration)))
             elif token[0] == '-':
                 time.sleep(duration)
-                track.append(Message('note_off', note=0, velocity=0, time=int(960 * duration)))
+                track.append(Message('note_off', note=0, velocity=0, time=int( 480*midi_duration)))
             elif token[0] == '.':
                 time.sleep(duration / 2)
-                track.append(Message('note_off', note=0, velocity=0, time=int(960 * duration/2)))
+                track.append(Message('note_off', note=0, velocity=0, time=int( 480*midi_duration/2)))
             else:
-                print(f"Invalid character '{token}' in input. Skipping.")
+                print(f"Invalid character '{token}' in input. Skipping.") 
         midi.save('output_midi/song.mid')
             
 
@@ -99,5 +101,5 @@ def play_notes(token_arr, duration):
 if __name__ == "__main__":
     #user_input = input("Enter a string of numbers (1-7) to play notes: ")
     parsed = split_string(songs["twinkle"])
-    transpose(3)
-    play_notes(parsed, .6)
+    transpose(0)
+    play_notes(parsed, 1)
