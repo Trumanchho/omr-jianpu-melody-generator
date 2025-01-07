@@ -4,7 +4,7 @@ import time
 
 #songs
 songs = {
-    "twinkle": "1 1 5 5 6 6 5- 4 4 3 3 2 2 1",
+    "twinkle": "1 1 5 5 6 6 5L 4 4 3 3 2 2 1",
 }
 
 # Map numbers 1-7 to MIDI note values (C4-B4)
@@ -32,7 +32,7 @@ def split_string(string):
     while i < len(string):
         token = string[i]
         i += 1
-        while i < len(string) and string[i].isalpha():
+        while i < len(string) and string[i].isalpha() and string[i].islower():
             token += string[i]
             i += 1
         tokens.append(token)
@@ -65,9 +65,9 @@ def generate_midi_file(token_arr, duration):
 
             track.append(Message('note_on', note=note, velocity=64, time=0))
             track.append(Message('note_off', note=note, velocity=64, time=int( 480*duration)))
-        elif token[0] == '-':
+        elif token[0] == 'L':
             track.append(Message('note_off', note=0, velocity=0, time=int( 480*prev_duration)))
-        elif token[0] == '.':
+        elif token[0] == 'D':
             track.append(Message('note_off', note=0, velocity=0, time=int( 480*prev_duration/2)))
         else:
             print(f"Invalid character '{token}' in input. Skipping.")
@@ -107,9 +107,9 @@ def play_notes(token_arr, duration):
                 output.send(Message('note_on', note=note, velocity=64))
                 time.sleep(duration)
                 output.send(Message('note_off', note=note, velocity=64))
-            elif token[0] == '-':
+            elif token[0] == 'L':
                 time.sleep(prev_duration)
-            elif token[0] == '.':
+            elif token[0] == 'D':
                 time.sleep(prev_duration / 2)
             else:
                 print(f"Invalid character '{token}' in input. Skipping.")
