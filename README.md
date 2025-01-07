@@ -30,4 +30,4 @@ u - underlined\
 w - double underlined\
 B - bar\
 D - dot\
-L - line (dash)\
+L - line (dash)
