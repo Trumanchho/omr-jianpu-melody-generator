@@ -13,8 +13,8 @@
 - melody generation and OMR functions have not yet been combined
 
 ### Training & Testing:
-- to train, run ``` python train.py ``` 
-- to test, run ``` python test.py ```
+- to train, run ``` python train.py ```. Takes data from ``` data ``` file (not included)
+- to test, run ``` python test.py ```. Tests data from ``` test ``` file (included)
 - lower epochs with sufficient data set size
 
 ### Symbol Table
