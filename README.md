@@ -12,9 +12,10 @@
 - Only trained on one font
 
 ### Training & Testing:
-- to train, run ``` python train.py ```. Takes data from ``` data ``` file (not included)
-- to test, run ``` python test.py ```. Tests data from ``` test ``` file (included)
-- lower epochs with sufficient data set size
+- To train, run ``` python train.py ```. Takes data from ``` data ``` file (not included)
+- To test, run ``` python test.py ```. Tests data from ``` test ``` file (included)
+- The current model is [jianpu.model.keras](jianpu.model.keras) 
+- Lower epochs with sufficient data set size
 
 ### Generating
 - run ``` python generata.py ```. (At this time, can use the [example](example) image)
