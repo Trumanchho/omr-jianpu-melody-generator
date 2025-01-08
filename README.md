@@ -6,9 +6,9 @@
 **Music:** mido
 
 
-### Current State (Jan. 6, 2025):
+### Current State (Jan. 7, 2025):
 - Data set is currently very limited but will be increased continually
-- Trained for classes: 1, 1h, 1u, 2, 3, 5, 5l, 5u, 6, 6lu, B, D, L
+- Trained for classes: 1, 1h, 1u, 2, 2u, 3, 3u, 4, 4u, 5, 5l, 5u, 6, 6l, 6u, 6lu, B, D, L
 - melody_generator.py takes a string of class ID's and outputs corresponding MIDI file and plays melody
 - melody generation and OMR functions have not yet been combined
 
