@@ -18,7 +18,7 @@
 - Lower epochs with sufficient data set size
 
 ### Generating
-- run ``` python generata.py ```. (At this time, can use the [example](example) image)
+- run ``` python generate.py ```. (At this time, can use the [example](example) image)
 - This will automatically play the generated melody if your machine has a MIDI port (most do)
 - A .mid file for the melody will be generated in /output_midi 
 
