@@ -4,7 +4,7 @@ import time
 
 #songs
 songs = {
-    "twinkle": "1 1 5 5 6 6 5L 4 4 3 3 2 2 1",
+    "song": "5lB1L3u1uB3L2B1L6lB5lL5lB1L3u1uB3L2B5L3B5D3u5u3uB1L5lB6lD1u1u6luB5lL5lB1L3u1uB3L2B1L",
 }
 
 # Map numbers 1-7 to MIDI note values (C4-B4)
@@ -23,9 +23,7 @@ def transpose(half_steps):
         note_map[key] += half_steps
 
 def split_string(string):
-    """
-    Split a string into a list of tokens.
-    """
+    #Split a string into a list of tokens.
     string = string.replace(" ", "")
     tokens = []
     i = 0
@@ -119,7 +117,7 @@ def play_notes(token_arr, duration):
 # Input: a string of numbers 1-7
 if __name__ == "__main__":
     #user_input = input("Enter a string of numbers (1-7) to play notes: ")
-    parsed = split_string(songs["twinkle"])
+    parsed = split_string(songs["song"])
     transpose(0)
     generate_midi_file(parsed, 1) # 1 = 120bpm, 2 = 60bpm, 1.5 = 90bpm
     play_notes(parsed, 1) 
