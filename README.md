@@ -1,7 +1,7 @@
 # ocr-melody-generator
 
 ### Packages
-**OMR:** numpy, tensorflow, python-opencv (not yet utilized)
+**OMR:** numpy, tensorflow, python-opencv, matplotlib
 
 **Music:** mido
 
