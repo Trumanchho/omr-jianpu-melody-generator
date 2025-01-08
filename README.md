@@ -7,15 +7,19 @@
 
 
 ### Current State (Jan. 7, 2025):
-- Data set is currently very limited but will be increased continually
+- Data set is currently very limited but will be increased continually (348 total images)
 - Trained for classes: 1, 1h, 1u, 2, 2u, 3, 3u, 4, 4u, 5, 5l, 5u, 6, 6l, 6u, 6lu, B, D, L
-- melody_generator.py takes a string of class ID's and outputs corresponding MIDI file and plays melody
-- melody generation and OMR functions have not yet been combined
+- Only trained on one font
 
 ### Training & Testing:
 - to train, run ``` python train.py ```. Takes data from ``` data ``` file (not included)
 - to test, run ``` python test.py ```. Tests data from ``` test ``` file (included)
 - lower epochs with sufficient data set size
+
+### Generating
+- run ``` python generata.py ```. (At this time, can use the [example](example) image)
+- This will automatically play the generated melody if your machine has a MIDI port (most do)
+- A .mid file for the melody will be generated in /output_midi 
 
 ### Symbol Table
 |Class ID| 1  | 1h | 1u | 2  | 3  | 5  | 5l | 5u | 6  | 6lu| B  | D  | L  |
