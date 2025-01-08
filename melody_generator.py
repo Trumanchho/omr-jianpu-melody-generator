@@ -68,7 +68,8 @@ def generate_midi_file(token_arr, duration):
         elif token[0] == 'D':
             track.append(Message('note_off', note=0, velocity=0, time=int( 480*prev_duration/2)))
         else:
-            print(f"Invalid character '{token}' in input. Skipping.")
+            pass
+            #print(f"Invalid character '{token}' in input. Skipping.")
         prev_duration = duration
     midi.save('output_midi/song.mid')
 
@@ -110,7 +111,8 @@ def play_notes(token_arr, duration):
             elif token[0] == 'D':
                 time.sleep(prev_duration / 2)
             else:
-                print(f"Invalid character '{token}' in input. Skipping.")
+                pass
+                #print(f"Invalid character '{token}' in input. Skipping.")
             prev_duration = duration
             
 

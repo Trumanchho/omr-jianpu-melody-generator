@@ -3,6 +3,7 @@ import numpy as numpy
 import matplotlib.pyplot as plt
 import tensorflow as tf 
 from variables import class_names
+from melody_generator import split_string, play_notes, generate_midi_file
 
 def sort_contours(contours, y_threshold=10, w_threshold=30, padding=5):
     contours = sorted(contours, key=lambda x: cv2.boundingRect(x)[1]) # sort by y
@@ -96,7 +97,10 @@ img = cv2.imread('song_pages/test_page4.PNG')
 symbols = detect_jianpu(img)
 
 model = tf.keras.models.load_model('jianpu.model.keras')
-print(predict_jianpu(model, symbols))
+id_string = predict_jianpu(model, symbols)
+
+generate_midi_file(split_string(id_string), 1)
+play_notes(split_string(id_string), 1)
 
 
 # cv2.imshow("Bounding Boxes", symbols)
