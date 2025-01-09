@@ -6,10 +6,10 @@
 **Music:** mido
 
 
-### Current State (Jan. 7, 2025):
-- Data set is currently very limited but will be increased continually (348 total images)
-- Trained for classes: 1, 1h, 1u, 2, 2u, 3, 3u, 4, 4u, 5, 5l, 5u, 6, 6l, 6u, 6lu, B, D, L
-- Only trained on one font
+### Current State (Jan. 8, 2025):
+- Data set is currently very limited but will be increased continually (1527 total images)
+- Trained for classes: 1, 1h, 1hu, 1u, 2, 2h, 2hu, 2u, 3, 3h, 3hu, 3u, 3w, 4, 4h, 4u, 5, 5l, 5lu, 5u, 6, 6l, 6lu, 6u, 7, 7l, 7lu, 7u, 7w, B, D, L
+- Trained on 2 fonts
 
 ### Training & Testing:
 - To train, run ``` python train.py ```. Takes data from ``` data ``` file (not included)
