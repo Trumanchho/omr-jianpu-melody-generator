@@ -91,6 +91,7 @@ def detect_jianpu(img):
             
     cv2.imshow("Bounding Boxes", bbox_img)
     cv2.waitKey(0)
+    cv2.destroyAllWindows()
     return char_images
 
 # Input: OMR model (model), array of Jianpu symbols 32x32 images (symbols)
@@ -113,8 +114,8 @@ def predict_jianpu(model, symbols):
 
     return out_string
 
-img = cv2.imread('song_pages/test_page20.PNG')
-img = resize_image(img)
+raw_img = cv2.imread('song_pages/test_page20.PNG')
+img = resize_image(raw_img)
 #img = cv2.imread('example/amazing_grace_jianpu.PNG')
 
 symbols = detect_jianpu(img)
