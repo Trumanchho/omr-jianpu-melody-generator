@@ -3,7 +3,7 @@
 ### Packages
 **OMR:** numpy, tensorflow, python-opencv, matplotlib
 
-**Music:** mido
+**Music:** mido, python-rtmidi
 
 
 ### Current State (Jan. 8, 2025):
