@@ -6,7 +6,7 @@ from variables import class_names
 from melody_generator import split_string, play_notes, generate_midi_file
 
 def resize_image(img):
-    h, w = image.shape[:2]
+    h, w = img.shape[:2]
     
     if h > 900:
         scale_factor = 900/h
