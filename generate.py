@@ -5,7 +5,7 @@ import tensorflow as tf
 from variables import class_names
 from melody_generator import split_string, play_notes, generate_midi_file
 
-def sort_contours(contours, y_threshold=10, w_threshold=30, padding=5):
+def sort_contours(contours, y_threshold=7, w_threshold=30, group_size=6):
     contours = sorted(contours, key=lambda x: cv2.boundingRect(x)[1]) # sort by y
     groups = []
     line = []
@@ -33,7 +33,7 @@ def sort_contours(contours, y_threshold=10, w_threshold=30, padding=5):
                 line = []
                 line.append(c)
     # sort each group by x
-    groups = [sorted(g, key=lambda x: cv2.boundingRect(x)[0]) for g in groups if len(g) >= 5] 
+    groups = [sorted(g, key=lambda x: cv2.boundingRect(x)[0]) for g in groups if len(g) > group_size] 
 
     return groups
             
@@ -43,11 +43,12 @@ def sort_contours(contours, y_threshold=10, w_threshold=30, padding=5):
 def detect_jianpu(img):
     # Adapted from https://www.youtube.com/watch?v=9FCw1xo_s0I&list=PL2VXyKi-KpYuTAZz__9KVl1jQz74bDG7i&index=8&ab_channel=PythonTutorialsforDigitalHumanities
     og_img = img
+    bbox_img = img
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
-    img = cv2.GaussianBlur(img, (7,7), 0)
+    img = cv2.GaussianBlur(img, (5,5), 0)
     img = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7,1))
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7,3)) #(5-7, 1-3)
     img = cv2.dilate(img, kernel, iterations=1)
 
     contours = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -67,10 +68,11 @@ def detect_jianpu(img):
             char_img = og_img[y:y+l, x:x+l]
             char_img = cv2.resize(char_img, (32, 32))
             #cv2.imwrite(f"raw_data/{i}.PNG", char_img)
-            #cv2.rectangle(og_img, (x, y), (x+l, y+l), (36 + 3*i, 255, 12), 2)
+            #cv2.rectangle(bbox_img, (x, y), (x+l, y+l), (36 + 3*i, 255, 12), 2)
             char_images.append(char_img)
             
-    #return og_img
+    # cv2.imshow("Bounding Boxes", bbox_img)
+    # cv2.waitKey(0)
     return char_images
 
 # Input: OMR model (model), array of Jianpu symbols 32x32 images (symbols)
@@ -93,7 +95,9 @@ def predict_jianpu(model, symbols):
 
     return out_string
 
-img = cv2.imread('song_pages/test_page4.PNG')
+#img = cv2.imread('song_pages/test_page.PNG')
+img = cv2.imread('example/amazing_grace_jianpu.PNG')
+
 symbols = detect_jianpu(img)
 
 model = tf.keras.models.load_model('jianpu.model.keras')

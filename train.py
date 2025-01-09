@@ -35,7 +35,7 @@ model.compile(
 )
 
 # Train the model
-model.fit(dataset, epochs=500)
+model.fit(dataset, epochs=125)
 
 # Save the model
 model.save('jianpu.model.keras')
