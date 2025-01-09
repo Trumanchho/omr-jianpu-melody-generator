@@ -5,6 +5,24 @@ import tensorflow as tf
 from variables import class_names
 from melody_generator import split_string, play_notes, generate_midi_file
 
+def resize_image(img):
+    h, w = image.shape[:2]
+    
+    if h > 900:
+        scale_factor = 900/h
+        new_w = int(w*scale_factor)
+        new_h = int(h*scale_factor)
+        resized = cv2.resize(img, (new_w, new_h))
+        img = resized
+    elif w > 900:
+        scale_factor = 900/w
+        new_w = int(w*scale_factor)
+        new_h = int(h*scale_factor)
+        resized = cv2.resize(img, (new_w, new_h))
+        img = resized
+    return img
+
+
 def sort_contours(contours, y_threshold=10, w_threshold=30, group_size=7):
     contours = sorted(contours, key=lambda x: cv2.boundingRect(x)[1]) # sort by y
     groups = []
@@ -96,6 +114,7 @@ def predict_jianpu(model, symbols):
     return out_string
 
 img = cv2.imread('song_pages/test_page20.PNG')
+img = resize_image(img)
 #img = cv2.imread('example/amazing_grace_jianpu.PNG')
 
 symbols = detect_jianpu(img)
