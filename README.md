@@ -7,7 +7,7 @@
 
 
 ### Current State (Jan. 8, 2025):
-- Data set is currently very limited but will be increased continually (1527 total images)
+- Data set is currently very limited but will be increased continually (2200 total images)
 - Trained for classes: 1, 1h, 1hu, 1u, 2, 2h, 2hu, 2u, 3, 3h, 3hu, 3u, 3w, 4, 4h, 4u, 5, 5l, 5lu, 5u, 6, 6l, 6lu, 6u, 7, 7l, 7lu, 7u, 7w, B, D, L
 - Trained on 2 fonts
 
