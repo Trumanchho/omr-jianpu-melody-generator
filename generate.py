@@ -20,7 +20,7 @@ def resize_image(img):
     return img
 
 
-def sort_contours(contours, y_threshold=10, w_threshold=30, group_size=7):
+def sort_contours(contours, y_threshold=7, w_threshold=30, group_size=7):
     contours = sorted(contours, key=lambda x: cv2.boundingRect(x)[1]) # sort by y
     groups = []
     line = []
@@ -82,8 +82,8 @@ def detect_jianpu(img):
             i += 1
             char_img = og_img[y:y+l, x:x+l]
             char_img = cv2.resize(char_img, (32, 32))
-            cv2.imwrite(f"raw_data/{i}.PNG", char_img)
-            #cv2.rectangle(bbox_img, (x, y), (x+l, y+l), (36 + 3*i, 255, 12), 2)
+            #cv2.imwrite(f"raw_data/{i}.PNG", char_img)
+            cv2.rectangle(bbox_img, (x, y), (x+l, y+l), (36 + 3*i, 255, 12), 2)
             char_images.append(char_img)
             
     cv2.imshow("Bounding Boxes", bbox_img)
@@ -111,7 +111,7 @@ def predict_jianpu(model, symbols):
 
     return out_string
 
-raw_img = cv2.imread('song_pages/image.png')
+raw_img = cv2.imread('song_pages/test_page20.PNG')
 img = resize_image(raw_img)
 #img = cv2.imread('example/amazing_grace_jianpu.PNG')
 
