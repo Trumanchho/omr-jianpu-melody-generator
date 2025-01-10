@@ -20,7 +20,7 @@ def resize_image(img):
     return img
 
 
-def sort_contours(contours, y_threshold=7, w_threshold=30, group_size=7):
+def sort_contours(contours, y_threshold=10, w_threshold=30, group_size=7):
     contours = sorted(contours, key=lambda x: cv2.boundingRect(x)[1]) # sort by y
     groups = []
     line = []
@@ -111,7 +111,7 @@ def predict_jianpu(model, symbols):
 
     return out_string
 
-raw_img = cv2.imread('song_pages/test_page20.PNG')
+raw_img = cv2.imread('song_pages/image.png')
 img = resize_image(raw_img)
 #img = cv2.imread('example/amazing_grace_jianpu.PNG')
 
