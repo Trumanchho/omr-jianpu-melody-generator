@@ -4,7 +4,7 @@ import time
 
 #songs
 songs = {
-    "song": "5lB1L3u1uB3L2B1L6lB5lL5lB1L3u1uB3L2B5L3B5D3u5u3uB1L5lB6lD1u1u6luB5lL5lB1L3u1uB3L2B1L",
+    "song": "1S12S23S34S45",
 }
 
 # Map numbers 1-7 to MIDI note values (C4-B4)
@@ -88,28 +88,33 @@ def play_notes(token_arr, duration):
 
         # Play each note in the input string and write to MIDI file
         prev_duration = tempo
-        
+        sharp = False
         for token in token_arr:
             duration = tempo
 
             if token[0] in note_map:
                 note = note_map[token[0]]
-                if len(token) > 1:
-                    if 'h' in token:
-                        note += 12
-                    elif 'l' in token:
-                        note -= 12
-                    if 'u' in token:
-                        duration /= 2
-                    elif 'w' in token:
-                        duration /= 4
+                
+                if 'h' in token: # change octave
+                    note += 12
+                elif 'l' in token:
+                    note -= 12
+                if 'u' in token: # change note length
+                    duration /= 2
+                elif 'w' in token:
+                    duration /= 4
+                if sharp:
+                    note += 1
                 output.send(Message('note_on', note=note, velocity=64))
                 time.sleep(duration)
                 output.send(Message('note_off', note=note, velocity=64))
-            elif token[0] == 'L':
+                sharp = False
+            elif token[0] == 'L': # Line (-)
                 time.sleep(prev_duration)
-            elif token[0] == 'D':
+            elif token[0] == 'D': # Dot (.)
                 time.sleep(prev_duration / 2)
+            elif token[0] == 'S': # Sharp (#)
+                sharp = True
             else:
                 pass
                 #print(f"Invalid character '{token}' in input. Skipping.")
