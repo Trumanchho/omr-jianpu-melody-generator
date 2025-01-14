@@ -76,15 +76,15 @@ def detect_jianpu(img):
     for group in contour_groups:
         for cnt in group:
             x, y, w, h = cv2.boundingRect(cnt)
-            pad = 5
+            pad = 7
             l = max(w+pad,h+pad)
             x = x - (l - w)//2
             y = y - (l - h)//2
             i += 1
             char_img = og_img[y:y+l, x:x+l]
             char_img = cv2.resize(char_img, (32, 32))
-            #cv2.imwrite(f"raw_data/{i}.PNG", char_img)
-            cv2.rectangle(bbox_img, (x, y), (x+l, y+l), (36 + 3*i, 255, 12), 2)
+            cv2.imwrite(f"raw_data/{i}.PNG", char_img)
+            #cv2.rectangle(bbox_img, (x, y), (x+l, y+l), (36 + 3*i, 255, 12), 2)
             char_images.append(char_img)
             
     cv2.imshow("Bounding Boxes", bbox_img)
