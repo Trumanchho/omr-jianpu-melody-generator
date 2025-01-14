@@ -112,7 +112,7 @@ def predict_jianpu(model, symbols):
 
     return out_string
 
-raw_img = cv2.imread('song_pages/test_page20.PNG')
+raw_img = cv2.imread('song_pages/image.png')
 img = resize_image(raw_img, 850)
 #img = cv2.imread('example/amazing_grace_jianpu.PNG')
 
