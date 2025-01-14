@@ -83,8 +83,8 @@ def detect_jianpu(img):
             i += 1
             char_img = og_img[y:y+l, x:x+l]
             char_img = cv2.resize(char_img, (32, 32))
-            cv2.imwrite(f"raw_data/{i}.PNG", char_img)
-            #cv2.rectangle(bbox_img, (x, y), (x+l, y+l), (36 + 3*i, 255, 12), 2)
+            #cv2.imwrite(f"raw_data/{i}.PNG", char_img)
+            cv2.rectangle(bbox_img, (x, y), (x+l, y+l), (36 + 3*i, 255, 12), 2)
             char_images.append(char_img)
             
     cv2.imshow("Bounding Boxes", bbox_img)
@@ -122,7 +122,7 @@ model = tf.keras.models.load_model('jianpu.model.keras')
 id_string = predict_jianpu(model, symbols)
 
 generate_midi_file(split_string(id_string), 1)
-play_notes(split_string(id_string), 1)
+play_notes(split_string(id_string), 1.5)
 
 
 # cv2.imshow("Bounding Boxes", symbols)

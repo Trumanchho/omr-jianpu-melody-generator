@@ -21,11 +21,23 @@ def process_img(image, label):
 dataset = dataset.map(process_img).prefetch(tf.data.AUTOTUNE)
 
 # Define the model
-model = tf.keras.models.Sequential([
-    tf.keras.layers.Flatten(input_shape=(32, 32, 1)),
-    tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.Dense(len(class_names), activation='softmax')
-])
+model = tf.keras.models.Sequential()
+
+# Add convolutional layers
+# Adapted from https://www.youtube.com/watch?v=eMMZpas-zX0&ab_channel=PatrickLoeber
+model.add(tf.keras.layers.Conv2D(32, (3,3), strides=(1,1), padding="valid", activation="relu", input_shape=(32,32,1)))
+model.add(tf.keras.layers.MaxPool2D((2,2)))
+model.add(tf.keras.layers.Conv2D(32, 3, activation="relu"))
+model.add(tf.keras.layers.MaxPool2D((2,2)))
+
+model.add(tf.keras.layers.Flatten(input_shape=(32, 32, 1)))
+model.add(tf.keras.layers.Dense(128, activation='relu'))
+model.add(tf.keras.layers.Dense(len(class_names), activation='softmax'))
+
+# print(model.summary())
+
+# import sys; sys.exit()
+
 
 # Compile the model
 model.compile(
@@ -35,7 +47,7 @@ model.compile(
 )
 
 # Train the model
-model.fit(dataset, epochs=150)
+model.fit(dataset, epochs=50)
 
 # Save the model
 model.save('jianpu.model.keras')
