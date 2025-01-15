@@ -21,7 +21,7 @@ def resize_image(img, max_resize):
     return img
 
 
-def sort_contours(contours, y_threshold=10, w_threshold=30, group_size=7):
+def sort_contours(contours, y_threshold=10, w_bound_h=30, group_size=8):
     contours = sorted(contours, key=lambda x: cv2.boundingRect(x)[1]) # sort by y
     groups = []
     line = []
@@ -29,6 +29,7 @@ def sort_contours(contours, y_threshold=10, w_threshold=30, group_size=7):
     _,line_y,line_w,line_h= cv2.boundingRect(contours[1])
     line_l = max(line_w,line_h)
     line_y = line_y - (line_l - line_h)//2
+    line_mid = line_y + line_l//2
     #print(line_y)
 
     # group contours by similar y
@@ -36,15 +37,20 @@ def sort_contours(contours, y_threshold=10, w_threshold=30, group_size=7):
         _,y,w,h = cv2.boundingRect(c)
         l = max(w,h)
         # filter only allowed width
-        if l < w_threshold: 
+        if l < w_bound_h:
             l = max(w,h)
+            # y = y - (l - h)//2
+            # curr_y = y
             y = y - (l - h)//2
-            curr_y = y
-            if abs(curr_y - line_y) <= y_threshold:
+            mid = y + l//2
+            #if abs(curr_y - line_y) <= y_threshold:
+            if abs(mid - line_mid) <= y_threshold:
                 #print(cv2.boundingRect(c)[1])
                 line.append(c)
             else:
-                line_y = y
+                #line_y = y
+                y = y - (l - h)//2
+                line_mid = y + l//2
                 groups.append(line)
                 line = []
                 line.append(c)
@@ -65,12 +71,23 @@ def detect_jianpu(img):
     img = cv2.GaussianBlur(img, (7,7), 0)
     img = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (4,1)) #(5-7, 1-3)
-    img = cv2.dilate(img, kernel, iterations=1)
+    dilated_img = cv2.dilate(img, kernel, iterations=1)
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1,4))
+    eroded_img = cv2.erode(dilated_img, kernel, iterations=1)
 
-    contours = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # Contours of numbers
+    contours = cv2.findContours(eroded_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     contours = contours[0] if len(contours) == 2 else contours[1]
+    filtered_contours = list(contours)
+    #filtered_contours = list(filter(lambda x: max(cv2.boundingRect(x)[2], cv2.boundingRect(x)[3]) > 10, contours))
     
-    contour_groups = sort_contours(contours)
+    # Contours of dots and lines
+    contours = cv2.findContours(dilated_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours = contours[0] if len(contours) == 2 else contours[1]
+    filtered_contours.extend(list(filter(lambda x: cv2.boundingRect(x)[3] < 10, contours)))
+    
+    contour_groups = sort_contours(filtered_contours, y_threshold=10)
+
     char_images = []
     i = -1
     for group in contour_groups:
@@ -84,10 +101,10 @@ def detect_jianpu(img):
             char_img = og_img[y:y+l, x:x+l]
             char_img = cv2.resize(char_img, (32, 32))
             #cv2.imwrite(f"raw_data/{i}.PNG", char_img)
-            cv2.rectangle(bbox_img, (x, y), (x+l, y+l), (36 + 3*i, 255, 12), 2)
+            cv2.rectangle(eroded_img, (x, y), (x+l, y+l), (36 + 3*i, 255, 12), 2)
             char_images.append(char_img)
             
-    cv2.imshow("Bounding Boxes", bbox_img)
+    cv2.imshow("Bounding Boxes", eroded_img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     return char_images
@@ -112,7 +129,7 @@ def predict_jianpu(model, symbols):
 
     return out_string
 
-raw_img = cv2.imread('song_pages/image.png')
+raw_img = cv2.imread('song_pages/test_page20.PNG')
 img = resize_image(raw_img, 850)
 #img = cv2.imread('example/amazing_grace_jianpu.PNG')
 
@@ -122,7 +139,7 @@ model = tf.keras.models.load_model('jianpu.model.keras')
 id_string = predict_jianpu(model, symbols)
 
 generate_midi_file(split_string(id_string), 1)
-play_notes(split_string(id_string), 1.5)
+play_notes(split_string(id_string), 1.2)
 
 
 # cv2.imshow("Bounding Boxes", symbols)
