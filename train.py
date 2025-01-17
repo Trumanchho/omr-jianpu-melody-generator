@@ -8,7 +8,7 @@ from variables import class_names
 dataset = tf.keras.utils.image_dataset_from_directory(
     "data",
     image_size=(32, 32),
-    #batch_size=32, 
+    batch_size=32, 
     label_mode='int',  # Ensure labels are integers for sparse_categorical_crossentropy
     class_names=class_names
 )
@@ -47,7 +47,7 @@ model.compile(
 )
 
 # Train the model
-model.fit(dataset, epochs=25)
+model.fit(dataset, epochs=40)
 
 # Save the model
 model.save('jianpu.model.keras')

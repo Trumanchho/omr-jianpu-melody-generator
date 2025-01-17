@@ -21,7 +21,7 @@ def resize_image(img, max_resize):
     return img
 
 
-def sort_contours(contours, y_threshold=10, w_bound_h=30, group_size=6):
+def sort_contours(contours, y_threshold=10, w_bound_h=25, group_size=6):
     contours = sorted(contours, key=lambda x: cv2.boundingRect(x)[1]) # sort by y
     groups = []
     line = []
@@ -68,7 +68,7 @@ def detect_jianpu(img):
     bbox_img = img.copy()
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
-    img = cv2.GaussianBlur(img, (7,9), 0)
+    img = cv2.GaussianBlur(img, (3,7), 0)
     img = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (4,1)) #(5-7, 1-3)
     dilated_img = cv2.dilate(img, kernel, iterations=1)
@@ -86,7 +86,7 @@ def detect_jianpu(img):
     contours = contours[0] if len(contours) == 2 else contours[1]
     filtered_contours.extend(list(filter(lambda x: cv2.boundingRect(x)[3] < 5, contours)))
     
-    contour_groups = sort_contours(filtered_contours, y_threshold=10)
+    contour_groups = sort_contours(filtered_contours, y_threshold=5)
 
     char_images = []
     
@@ -95,7 +95,7 @@ def detect_jianpu(img):
         line = []
         for cnt in group:
             x, y, w, h = cv2.boundingRect(cnt)
-            pad = 7
+            pad = 10
             l = max(w+pad,h+pad)
             x = x - (l - w)//2
             y = y - (l - h)//2
@@ -124,7 +124,7 @@ def detect_jianpu(img):
             for group in contour_groups:
                 for cnt in group:
                     x, y, w, h = cv2.boundingRect(cnt)
-                    pad = 7
+                    pad = 10
                     l = max(w+pad,h+pad)
                     x = x - (l - w)//2
                     y = y - (l - h)//2
