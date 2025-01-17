@@ -27,7 +27,8 @@
 - If any unwanted lines are detected, enter the line number to be removed in the command line
 - The window will reappear with the line removed. Repeat if more lines need to be removed
 - Once all unwanted lines are removed, hit ENTER. This will automatically play the generated melody if your machine has a MIDI port
-- A .mid file for the melody will be generated in /output_midi 
+- A .mid file for the melody will be generated in /output_midi
+- See what the output should look like in this [example](example/example.md)
 
 ### Example Symbol Table
 |Class ID| 1  | 1h | 1u | 2  | 3  | 5  | 5l | 5u | 6  | 6lu| B  | D  | L  |
