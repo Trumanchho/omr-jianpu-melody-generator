@@ -175,9 +175,10 @@ symbols = detect_jianpu(img)
 #         del symbols[line_to_remove]
 model = tf.keras.models.load_model('jianpu.model.keras')
 id_string = predict_jianpu(model, symbols)
+print(id_string)
 
 generate_midi_file(split_string(id_string), 1)
-play_notes(split_string(id_string), 1.2)
+play_notes(split_string(id_string), 1.5)
 
 
 # cv2.imshow("Bounding Boxes", symbols)
