@@ -1,9 +1,9 @@
 # ocr-melody-generator
 
 ### Packages
-**OMR:** numpy, tensorflow, python-opencv, matplotlib
+**OMR:** numpy, tensorflow, opencv-python, matplotlib
 
-**Music:** mido, python-rtmidi
+**Music:** mido, rtmidi-python
 
 
 ### Current State (Feb. 3, 2025):
