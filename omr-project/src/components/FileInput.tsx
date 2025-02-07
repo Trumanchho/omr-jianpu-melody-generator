@@ -21,7 +21,7 @@ function FileInput() {
             const data = new FormData()
             data.append("file", file)
 
-            let response = await fetch('http://localhost:5000/omr-results',
+            let response = await fetch(`${import.meta.env.VITE_API_URL}/omr-results`,
                 {
                     method: 'POST',
                     body: data,
@@ -42,7 +42,7 @@ function FileInput() {
     const generateMidi = async (e:any) => {
         if (charGrid.length !== 0) {
             const data = {"char_list": charGrid}
-            let response = await fetch('http://localhost:5000/omr-results',
+            let response = await fetch(`${import.meta.env.VITE_API_URL}/omr-results`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json'},
