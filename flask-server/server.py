@@ -37,6 +37,7 @@ def omrResults():
         return {"image": img_base64, "char_list": b64_char_list}
     else:
         data = request.get_json()
+        bpm = 120 / data['bpm']
         img_list = []
         for row in data['char_list']:
             img_row = []
@@ -47,7 +48,7 @@ def omrResults():
             img_list.append(img_row)
         
         tokens = split_string(predict_jianpu(img_list))
-        generate_midi_file(tokens, 1)
+        generate_midi_file(tokens, bpm)
         # FluidSynth('output_midi/TimGM6mb.sf2').midi_to_audio('output_midi/song.mid', 'output_midi/song.wav')
         return send_from_directory('output_midi', 'song.mid', as_attachment=True ,mimetype='audio/midi')
         #play_notes(tokens, 1)

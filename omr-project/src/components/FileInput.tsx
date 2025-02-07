@@ -10,6 +10,7 @@ function FileInput() {
     const [midi, setMidi] = useState<Midi | null>(null)
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
     const [generatingMidi, setGeneratingMidi] = useState<boolean>(false)
+    const [bpm, setBpm] = useState<number>(120)
 
     const resetFile = (e:any) => {
         e.target.value = null
@@ -43,7 +44,7 @@ function FileInput() {
     const generateMidi = async (e:any) => {
         if (charGrid.length !== 0) {
             setGeneratingMidi(true)
-            const data = {"char_list": charGrid}
+            const data = {"char_list": charGrid, "bpm": bpm}
             let response = await fetch(`${import.meta.env.VITE_API_URL}/omr-results`,
                 {
                     method: 'POST',
@@ -97,6 +98,10 @@ function FileInput() {
         }
     }
 
+    const updateBpm = (e:any) => {
+        setBpm(Number(e.target.value))
+    }
+
     return (
         <div>
             <label htmlFor="myfile">Upload File:</label>
@@ -123,6 +128,8 @@ function FileInput() {
                         ))}
                     </div>
                 ))}
+                <input type="range" id="bpm" min="40" max="140" value={bpm} onChange={updateBpm}/>
+                <label htmlFor="bpm">BPM: {bpm}</label>
                 <div style={{display: "flex"}}>
                     <button onClick={generateMidi}>Generate</button>
                     {generatingMidi &&
