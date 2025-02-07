@@ -15,7 +15,7 @@
 - Run ```python server.py``` to start flask server
 - The server should be running on [localhost:5000](http://127.0.0.1:5000). However, if it is not, you will need to change the VITE_API_URL environment variable located in the .env file inside the omr-project directory. If you are currently inside flask-server, type ```cd ../omr-project```
 
-**2. Start React App on Dev**
+**2. Start React App**
 - Open a new terminal and navigate to the omr-project directory i.e., ```cd omr-project```
 - Once inside omr-project, run ```npm install```
 - Then, run ```npm run dev```
