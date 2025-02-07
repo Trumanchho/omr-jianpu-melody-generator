@@ -2,7 +2,7 @@ from flask import Flask, request, send_from_directory
 from flask_cors import CORS
 from midi2audio import FluidSynth
 
-from generate import fileBuff2Img, detect_jianpu, predict_jianpu
+from generate import fileBuff2Img, detect_jianpu, predict_jianpu, resize_image
 from melody_generator import split_string, play_notes, generate_midi_file
 
 import cv2
@@ -17,6 +17,7 @@ def omrResults():
     if 'file' in request.files:
         file = request.files['file']
         img = fileBuff2Img(file.read())
+        img = resize_image(img, 850)
         char_list, bbox = detect_jianpu(img)
 
         b64_char_list = []
