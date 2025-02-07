@@ -1,4 +1,4 @@
-# ocr-melody-generator
+# OMR Melody Generator
 
 ### Current State (Feb. 6, 2025):
 - Data set is currently very limited but will be increased continually (**3014** total images)
