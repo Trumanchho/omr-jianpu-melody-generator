@@ -1,6 +1,12 @@
 # OMR Melody Generator
 This tool allows users to scan images of Jianpu (numbered musical notation) sheet music and generate its melody digitally. The tool extracts Jianpu symbols from the sheet music which are then processed and fed into a CNN that predicts each note. All notes are compiled into a MIDI file that can be downloaded and played.
 
+[An Example](#an-example)  
+[Current State](#current-state)  
+[Running The Web App](#running-the-web-app)  
+[Training & Testing](#training--testing)  
+[Symbol Table](#example-symbol-table)  
+
 ### An Example
 
 |Provided Image|Detected Jianpu|
@@ -13,7 +19,8 @@ Output MIDI file: [MIDI file](example/song.mid)
 
 https://github.com/user-attachments/assets/47411c83-5ae8-4b37-bf13-0a6b6ae2bf29
 
-### Current State (Feb. 6, 2025):
+### Current State
+#### As of Feb. 6, 2024
 - Data set is currently very limited but will be increased continually (**3014** total images)
 - Trained for classes: 1, 1h, 1hu, 1u, 2, 2h, 2hu, 2u, 3, 3h, 3hu, 3u, 3w, 4, 4h, 4hu, 4lu, 4u, 5, 5h, 5hu, 5l, 5lu, 5u, 6, 6l, 6lu, 6u, 7, 7l, 7lu, 7u, 7w, B, D, L, S
 - Created React frontend to scan Jianpu sheets and generate melodies using latest model
