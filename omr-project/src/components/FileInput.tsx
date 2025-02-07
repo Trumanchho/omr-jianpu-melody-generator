@@ -10,6 +10,7 @@ function FileInput() {
     const [midiURL, setMidiURL] = useState<string>("")
     const [midi, setMidi] = useState<Midi | null>(null)
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
+    const [generatingMidi, setGeneratingMidi] = useState<boolean>(false)
 
     const handleFileChange = (e:any) => {
         setFile(e.target.files[0])
@@ -41,6 +42,7 @@ function FileInput() {
 
     const generateMidi = async (e:any) => {
         if (charGrid.length !== 0) {
+            setGeneratingMidi(true)
             const data = {"char_list": charGrid}
             let response = await fetch(`${import.meta.env.VITE_API_URL}/omr-results`,
                 {
@@ -54,8 +56,8 @@ function FileInput() {
             let buffer = await res.arrayBuffer()
             let midi = new Midi(buffer)
             setMidi(midi)
-            console.log(midi)
             setMidiURL(URL.createObjectURL(res))
+            setGeneratingMidi(false)
         }
     }
 
@@ -123,7 +125,10 @@ function FileInput() {
                 ))}
                 <div style={{display: "flex"}}>
                     <button onClick={generateMidi}>Generate</button>
-                    {midiURL && (
+                    {generatingMidi &&
+                        <span>Generating...</span>
+                    }
+                    {midiURL && !generatingMidi && (
                         <div>
                             <a href={midiURL} download="song.mid">Download MIDI File</a>
                             <button onClick={playMidi}>Play MIDI</button>
