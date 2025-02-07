@@ -13,11 +13,13 @@
 - (Optional) Create a virtual environment before installing dependencies 
 - Run ```pip install -r requirements.txt``` to install dependencies
 - Run ```python server.py``` to start flask server
-- The server should be running on [localhost:5000](http://127.0.0.1:5000). However, if it is not, you will need to change the VITE_API_URL environment variable located in the .env file inside the omr-project directory. If you are currently inside flask-server, type ```cd ../omr-project```
+- The server should be running on [localhost:5000](http://127.0.0.1:5000).
 
 **2. Start React App**
 - Open a new terminal and navigate to the omr-project directory i.e., ```cd omr-project```
-- Once inside omr-project, run ```npm install```
+- Create a .env file inside this directory, for example: ```touch .env```
+- add ```VITE_API_URL=http://127.0.0.1:5000``` into the .env file (If the server is not running on port 5000, you will have to change this line)
+- Run ```npm install``` to install dependencies
 - Then, run ```npm run dev```
 - The app should now be running on [localhost:5173](http://localhost:5173) (vite should serve on port 5173 by default)
 
