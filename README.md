@@ -19,7 +19,7 @@
 - Open a new terminal and navigate to the omr-project directory i.e., ```cd omr-project```
 - Once inside omr-project, run ```npm install```
 - Then, run ```npm run dev```
-- The app should now be running on localhost:5173 (vite should serve on port 5173 by default)
+- The app should now be running on [localhost:5173](http://localhost:5173) (vite should serve on port 5173 by default)
 
 ### Training & Testing:
 - To train, run ``` python train.py ```. Takes data from ``` data ``` file (not included)
