@@ -20,8 +20,15 @@ def process_img(image, label):
 
 dataset = dataset.map(process_img).prefetch(tf.data.AUTOTUNE)
 
+# Data aumentation
+data_augmentation = tf.keras.Sequential([
+  tf.keras.layers.RandomZoom(0.2)
+])
 # Define the model
 model = tf.keras.models.Sequential()
+
+# Add Data Augmentation Layer
+model.add(data_augmentation) 
 
 # Add convolutional layers
 # Adapted from https://www.youtube.com/watch?v=eMMZpas-zX0&ab_channel=PatrickLoeber
@@ -47,7 +54,7 @@ model.compile(
 )
 
 # Train the model
-model.fit(dataset, epochs=40)
+model.fit(dataset, epochs=50)
 
 # Save the model
 model.save('jianpu.model.keras')
