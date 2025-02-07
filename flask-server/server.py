@@ -1,6 +1,5 @@
 from flask import Flask, request, send_from_directory
 from flask_cors import CORS
-from midi2audio import FluidSynth
 
 from generate import fileBuff2Img, detect_jianpu, predict_jianpu, resize_image
 from melody_generator import split_string, play_notes, generate_midi_file
