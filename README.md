@@ -11,7 +11,7 @@ Output Class ID string: 5lB1L3u1uB3L2B1L6lB5lL5lB1L3u1uB3L2B5L3B5D3u5u3uB1L5lB6l
 
 Output MIDI file: [MIDI file](example/song.mid)
 
-https://github.com/user-attachments/assets/82884128-97d9-43be-a7cf-98256e6ed04e
+https://github.com/user-attachments/assets/47411c83-5ae8-4b37-bf13-0a6b6ae2bf29
 
 ### Current State (Feb. 6, 2025):
 - Data set is currently very limited but will be increased continually (**3014** total images)
