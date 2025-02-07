@@ -4,7 +4,6 @@ import { Midi } from "@tonejs/midi"
 
 function FileInput() {
 
-    const [file, setFile] = useState(null)
     const [imageSrc, setImageSrc] = useState<string | null>(null)
     const [charGrid, setCharGrid] = useState<string[][]>([])
     const [midiURL, setMidiURL] = useState<string>("")
@@ -12,11 +11,12 @@ function FileInput() {
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
     const [generatingMidi, setGeneratingMidi] = useState<boolean>(false)
 
-    const handleFileChange = (e:any) => {
-        setFile(e.target.files[0])
+    const resetFile = (e:any) => {
+        e.target.value = null
     }
 
     const uploadFile = async (e:any) => {
+        
         let file = e.target.files[0]
         if (file) {
             const data = new FormData()
@@ -100,7 +100,7 @@ function FileInput() {
     return (
         <div>
             <label htmlFor="myfile">Upload File:</label>
-            <input type="file" id="myfile" name="myfile" onChange={uploadFile}/>
+            <input type="file" id="myfile" name="myfile" onChange={uploadFile} onClick={resetFile}/>
             {/* <button onClick={uploadFile}>Detect Jianpu</button> */}
 
             {imageSrc && <img src={imageSrc} alt="Bounding Boxes" />}
