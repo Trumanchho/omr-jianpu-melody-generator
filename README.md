@@ -1,34 +1,33 @@
-# ocr-melody-generator
+# OMR Melody Generator
 
-### Packages
-**OMR:** numpy, tensorflow, opencv-python, matplotlib
-
-**Music:** mido, rtmidi-python
-
-
-### Current State (Feb. 3, 2025):
+### Current State (Feb. 6, 2025):
 - Data set is currently very limited but will be increased continually (**3014** total images)
 - Trained for classes: 1, 1h, 1hu, 1u, 2, 2h, 2hu, 2u, 3, 3h, 3hu, 3u, 3w, 4, 4h, 4hu, 4lu, 4u, 5, 5h, 5hu, 5l, 5lu, 5u, 6, 6l, 6lu, 6u, 7, 7l, 7lu, 7u, 7w, B, D, L, S
-
-
+- Created React frontend to scan Jianpu sheets and generate melodies using latest model
+- Flask for backend
 - Improved segmentation results for connected underlines
-- Added CLI option to delete unwanted lines. Useful when lines that are not jianpu are detected (i.e., words)
+
+### Running the Web App
+**1. Start Flask server**
+- In your terminal, navigate to the flask-server directory i.e., ```cd flask-server```
+- (Optional) Create a virtual environment before installing dependencies 
+- Run ```pip install -r requirements.txt``` to install dependencies
+- Run ```python server.py``` to start flask server
+- The server should be running on [localhost:5000](http://127.0.0.1:5000).
+
+**2. Start React App**
+- Open a new terminal and navigate to the omr-project directory i.e., ```cd omr-project```
+- Create a .env file inside this directory, for example: ```touch .env```
+- add ```VITE_API_URL=http://127.0.0.1:5000``` into the .env file and save it (If the server is not running on port 5000, you will have to change this line)
+- Run ```npm install``` to install dependencies
+- Then, run ```npm run dev```
+- The app should now be running on [localhost:5173](http://localhost:5173) (vite should serve on port 5173 by default)
 
 ### Training & Testing:
 - To train, run ``` python train.py ```. Takes data from ``` data ``` file (not included)
 - To test, run ``` python test.py ```. Tests data from ``` test ``` file (sample included)
 - The current model is [jianpu.model.keras](jianpu.model.keras) 
 - Lower epochs with sufficient data set size
-
-### Generating
-- run ``` python generate.py ```.
-- A new window displaying the segmentation results will appear
-- You must close the window to continue (press 0 or esc on mac)
-- If any unwanted lines are detected, enter the line number to be removed in the command line
-- The window will reappear with the line removed. Repeat if more lines need to be removed
-- Once all unwanted lines are removed, hit ENTER. This will automatically play the generated melody if your machine has a MIDI port
-- A .mid file for the melody will be generated in /output_midi
-- See what the output should look like in this [example](example/example.md)
 
 ### Example Symbol Table
 |Class ID| 1  | 1h | 1u | 2  | 3  | 5  | 5l | 5u | 6  | 6lu| B  | D  | L  |
@@ -44,3 +43,4 @@ w - double underlined\
 B - bar\
 D - dot\
 L - line (dash)
+S - sharp
