@@ -47,15 +47,20 @@ def omrResults():
                 img_row.append(img)
             img_list.append(img_row)
         
+
         tokens = split_string(predict_jianpu(img_list))
         generate_midi_file(tokens, bpm)
-        # FluidSynth('output_midi/TimGM6mb.sf2').midi_to_audio('output_midi/song.mid', 'output_midi/song.wav')
-        return send_from_directory('output_midi', 'song.mid', as_attachment=True ,mimetype='audio/midi')
+
+        with open('output_midi/song.mid', "rb") as midi_file:
+            b64_midi_file = base64.b64encode(midi_file.read()).decode('utf-8')
+
+        return {'b64_midi_file': b64_midi_file, 'tokens': tokens}
+        #return send_from_directory('output_midi', 'song.mid', as_attachment=True ,mimetype='audio/midi')
         #play_notes(tokens, 1)
         #return 
             
 
-        
+         
 
 
 if __name__ == "__main__":

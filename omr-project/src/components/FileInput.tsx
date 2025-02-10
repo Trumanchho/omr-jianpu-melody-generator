@@ -1,11 +1,13 @@
 import React, { useState } from "react"
 import * as Tone from "tone"
 import { Midi } from "@tonejs/midi"
+import './FileInput.css'
 
 function FileInput() {
 
     const [imageSrc, setImageSrc] = useState<string | null>(null)
     const [charGrid, setCharGrid] = useState<string[][]>([])
+    const [tokens, setTokens] = useState<string[]>([])
     const [midiURL, setMidiURL] = useState<string>("")
     const [midi, setMidi] = useState<Midi | null>(null)
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
@@ -53,11 +55,24 @@ function FileInput() {
                 }
             )
 
-            let res = await response.blob()
-            let buffer = await res.arrayBuffer()
-            let midi = new Midi(buffer)
+            let res = await response.json()
+            setTokens(res.tokens)
+
+            // Start of code adapted from https://saturncloud.io/blog/creating-a-blob-from-a-base64-string-in-javascript/#:~:text=BLOB%20in%20JavaScript-,To%20convert%20a%20Base64%20string%20to%20a%20BLOB%20in%20JavaScript,creates%20a%20new%20BLOB%20object.
+            let byteCharacters = atob(res.b64_midi_file)
+            let byteArrays = []
+
+            for (let i=0; i<byteCharacters.length; i++) {
+                byteArrays.push(byteCharacters.charCodeAt(i))
+            }
+
+            let byteArray = new Uint8Array(byteArrays)
+            // End of adapted code
+            let blob = new Blob([byteArray])
+            
+            let midi = new Midi(byteArray.buffer)
             setMidi(midi)
-            setMidiURL(URL.createObjectURL(res))
+            setMidiURL(URL.createObjectURL(blob))
             setGeneratingMidi(false)
         }
     }
@@ -76,7 +91,7 @@ function FileInput() {
                 release: 1,
                 baseUrl: "https://tonejs.github.io/audio/salamander/",
             }).toDestination();
-            // End of code from https://tonejs.github.io/ 
+            // End of adapted code
 
             await Tone.loaded()
             let track = midi.tracks[0]
