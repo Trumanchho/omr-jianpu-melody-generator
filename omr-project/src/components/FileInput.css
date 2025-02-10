@@ -1,0 +1,12 @@
+.horizontal {
+    display: flex;
+}
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.token-input {
+    width: 32px;
+}

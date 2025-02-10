@@ -13,7 +13,7 @@ CORS(app)
 
 @app.route('/omr-results', methods=['POST'])
 def omrResults():
-    if 'file' in request.files:
+    if 'file' in request.files: # Detect Jianpu from file
         file = request.files['file']
         img = fileBuff2Img(file.read())
         img = resize_image(img, 850)
@@ -35,21 +35,27 @@ def omrResults():
         img_base64 = base64.b64encode(img_bytes).decode('utf-8')
 
         return {"image": img_base64, "char_list": b64_char_list}
-    else:
-        data = request.get_json()
-        bpm = 120 / data['bpm']
-        img_list = []
-        for row in data['char_list']:
-            img_row = []
-            for b64 in row:
-                b64decode = base64.b64decode(b64)
-                img = fileBuff2Img(b64decode)
-                img_row.append(img)
-            img_list.append(img_row)
+    else: # generate Jianpu predictions
         
+        data = request.get_json()
 
-        tokens = split_string(predict_jianpu(img_list))
-        generate_midi_file(tokens, bpm)
+        if 'tokens' in data: # Tokens are given
+            generate_midi_file(data['tokens'], 120/data['bpm'])
+            tokens = data['tokens']
+        else: # Tokens are not given. Need to predict...
+            bpm = 120 / data['bpm']
+            img_list = []
+            for row in data['char_list']:
+                img_row = []
+                for b64 in row:
+                    b64decode = base64.b64decode(b64)
+                    img = fileBuff2Img(b64decode)
+                    img_row.append(img)
+                img_list.append(img_row)
+            
+
+            tokens = split_string(predict_jianpu(img_list))
+            generate_midi_file(tokens, bpm)
 
         with open('output_midi/song.mid', "rb") as midi_file:
             b64_midi_file = base64.b64encode(midi_file.read()).decode('utf-8')
