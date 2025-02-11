@@ -3,6 +3,7 @@ import * as Tone from "tone"
 import { Midi } from "@tonejs/midi"
 import './FileInput.css'
 
+let steps = 0
 function FileInput() {
 
     const [imageSrc, setImageSrc] = useState<string | null>(null)
@@ -15,6 +16,7 @@ function FileInput() {
     const [bpm, setBpm] = useState<number>(120)
 
     let token_idx:number = 0
+    
 
     const resetFile = (e:any) => {
         e.target.value = null
@@ -52,10 +54,11 @@ function FileInput() {
     }
 
     const generateMidi = async (e:any) => {
+        //console.log(steps)
         setGeneratingMidi(true)
         let res:any
         if (tokens.length != 0) {
-            const data = {'tokens': tokens, 'bpm' : bpm}
+            const data = {'tokens': tokens, 'bpm': bpm, 'steps': steps}
             let response = await fetch(`${import.meta.env.VITE_API_URL}/omr-results`,
                 {
                     method: 'POST',
@@ -64,7 +67,7 @@ function FileInput() {
                 })
             res = await response.json()
         } else if (charGrid.length !== 0) {
-            const data = {'char_list': charGrid, 'bpm': bpm}
+            const data = {'char_list': charGrid, 'bpm': bpm, 'steps': steps}
             let response = await fetch(`${import.meta.env.VITE_API_URL}/omr-results`,
                 {
                     method: 'POST',
@@ -143,6 +146,9 @@ function FileInput() {
     const updateBpm = (e:any) => {
         setBpm(Number(e.target.value))
     }
+    const updateSteps = (e:any) => {
+        steps = Number(e.target.value)
+    }
 
     return (
         <div>
@@ -178,7 +184,10 @@ function FileInput() {
                     </div>
                 ))}
                 <input type="range" id="bpm" min="40" max="140" value={bpm} onChange={updateBpm}/>
-                <label htmlFor="bpm">BPM: {bpm}</label>
+                <label htmlFor="bpm">BPM: {bpm}</label><br/>
+                {/* remove temp br tag later */}
+                <label htmlFor="transpose">Transpose</label>
+                <input type="number" id="tranpose" defaultValue={steps} onChange={updateSteps}/>
                 <div style={{display: "flex"}}>
                     <button onClick={generateMidi}>Generate</button>
                     {generatingMidi &&

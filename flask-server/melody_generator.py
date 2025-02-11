@@ -18,9 +18,9 @@ note_map = {
     '7': 71   # B4
 }
 
-def transpose(half_steps):
-    for key in note_map:
-        note_map[key] += half_steps
+def transpose(half_steps, scale=note_map):
+    for key in scale:
+        scale[key] += half_steps
 
 def split_string(string):
     #Split a string into a list of tokens.
@@ -36,7 +36,9 @@ def split_string(string):
         tokens.append(token)
     return tokens
 
-def generate_midi_file(token_arr, duration):
+def generate_midi_file(token_arr, duration, steps=0):
+    scale = note_map.copy()
+    transpose(steps, scale)
     tempo = duration
     # Create a new MIDI file with a single track
     midi = MidiFile()
@@ -49,8 +51,8 @@ def generate_midi_file(token_arr, duration):
     sharp = False
     for token in token_arr:
         duration = tempo
-        if token[0] in note_map:
-            note = note_map[token[0]]
+        if token[0] in scale:
+            note = scale[token[0]]
             
             if 'h' in token: # change octave
                 note += 12

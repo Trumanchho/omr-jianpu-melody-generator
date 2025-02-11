@@ -40,7 +40,7 @@ def omrResults():
         data = request.get_json()
 
         if 'tokens' in data: # Tokens are given
-            generate_midi_file(data['tokens'], 120/data['bpm'])
+            generate_midi_file(data['tokens'], 120/data['bpm'], steps=data['steps'])
             tokens = data['tokens']
         else: # Tokens are not given. Need to predict...
             bpm = 120 / data['bpm']
@@ -55,7 +55,7 @@ def omrResults():
             
 
             tokens = split_string(predict_jianpu(img_list))
-            generate_midi_file(tokens, bpm)
+            generate_midi_file(tokens, bpm, steps=data['steps'])
 
         with open('output_midi/song.mid', "rb") as midi_file:
             b64_midi_file = base64.b64encode(midi_file.read()).decode('utf-8')
