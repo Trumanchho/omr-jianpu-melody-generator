@@ -4,11 +4,13 @@ import { Midi } from "@tonejs/midi"
 import './FileInput.css'
 
 let steps = 0
+
+
 function FileInput() {
 
     const [imageSrc, setImageSrc] = useState<string | null>(null)
     const [charGrid, setCharGrid] = useState<string[][]>([])
-    const [tokens, setTokens] = useState<string[]>([])
+    const [tokens, setTokens] = useState<string[][]>([])
     const [midiURL, setMidiURL] = useState<string>("")
     const [midi, setMidi] = useState<Midi | null>(null)
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
@@ -16,7 +18,6 @@ function FileInput() {
     const [bpm, setBpm] = useState<number>(120)
 
     let token_idx:number = 0
-    
 
     const resetFile = (e:any) => {
         e.target.value = null
@@ -51,14 +52,15 @@ function FileInput() {
 
     const deleteRow = (idx:number) => {
         setCharGrid(grid => grid.filter((_, i) => i !== idx))
+        setTokens(grid => grid.filter((_, i) => i !== idx))
     }
 
     const generateMidi = async (e:any) => {
-        //console.log(steps)
+        
         setGeneratingMidi(true)
         let res:any
         if (tokens.length != 0) {
-            const data = {'tokens': tokens, 'bpm': bpm, 'steps': steps}
+            const data = {'tokens': tokens.flat(), 'bpm': bpm, 'steps': steps}
             let response = await fetch(`${import.meta.env.VITE_API_URL}/omr-results`,
                 {
                     method: 'POST',
@@ -76,7 +78,19 @@ function FileInput() {
                 })
 
             res = await response.json()
-            setTokens(res.tokens)
+
+            // Reshape tokens to match char_grid
+            let reshaped_tokens = []
+            let k = 0
+            for (let i=0;i<charGrid.length;i++) {
+                let token_row:string[] = []
+                for (let j=0;j<charGrid[i].length;j++) {
+                    token_row.push(res.tokens[k])
+                    k++
+                }
+                reshaped_tokens.push(token_row)
+            }
+            setTokens(reshaped_tokens)
         }
 
         // Start of code adapted from https://saturncloud.io/blog/creating-a-blob-from-a-base64-string-in-javascript/#:~:text=BLOB%20in%20JavaScript-,To%20convert%20a%20Base64%20string%20to%20a%20BLOB%20in%20JavaScript,creates%20a%20new%20BLOB%20object.
@@ -100,8 +114,8 @@ function FileInput() {
     }
 
     const playMidi = async () => {
-        if (midi && !isPlaying) {
 
+        if (midi && !isPlaying) {
             // Start of code from https://tonejs.github.io/ 
             const sampler = new Tone.Sampler({
                 urls: {
@@ -114,7 +128,6 @@ function FileInput() {
                 baseUrl: "https://tonejs.github.io/audio/salamander/",
             }).toDestination();
             // End of adapted code
-
             await Tone.loaded()
             let track = midi.tracks[0]
             let now = Tone.now();
@@ -135,12 +148,13 @@ function FileInput() {
         }
     }
 
-    const updateTokens = (tokenIdx:number, token:string) => {
+    const updateTokens = (x:number, y:number, token:string) => {
         setTokens(prev => {
             let temp = [...prev]
-            temp[tokenIdx] = token
+            temp[x][y] = token
             return temp
         })
+
     }
 
     const updateBpm = (e:any) => {
@@ -176,8 +190,8 @@ function FileInput() {
                                     style={{ border: '1px solid black' }} 
                                 />
                                 <input id={`${token_idx-1}`} className="token-input" type="text" 
-                                    value={tokens[token_idx-1]} 
-                                    onChange={(e) => updateTokens(Number(e.target.id), e.target.value)}
+                                    value={tokens.length > 0 ? tokens[rowIndex][colIndex] : ''} 
+                                    onChange={(e) => updateTokens(rowIndex, colIndex, e.target.value)}
                                 />
                             </div>
                         )})}    
