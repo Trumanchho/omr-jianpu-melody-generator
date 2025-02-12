@@ -56,7 +56,7 @@ function FileInput() {
         setTokens(grid => grid.filter((_, i) => i !== idx))
     }
 
-    const generateMidi = async (e:any) => {
+    const generateMidi = async () => {
         
         setGeneratingMidi(true)
         let res:any
