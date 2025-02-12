@@ -4,6 +4,7 @@ import { Midi } from "@tonejs/midi"
 import './FileInput.css'
 
 let steps = 0
+let timeout:any
 
 
 function FileInput() {
@@ -133,19 +134,30 @@ function FileInput() {
             let now = Tone.now();
     
             track.notes.forEach(note => {
-                sampler.triggerAttackRelease(
-                    note.name,
-                    note.duration,
-                    now + note.time,
-                    note.velocity
-                )
+                Tone.getTransport().schedule((time) => {
+                    sampler.triggerAttackRelease(
+                        note.name,
+                        note.duration,
+                        time,
+                        note.velocity
+                    )
+                }, note.time)
             })
-            await Tone.start()
+            Tone.getTransport().start()
             setIsPlaying(true)
-            setTimeout(() => {
+            timeout = setTimeout(() => {
+                Tone.getTransport().stop()
+                Tone.getTransport().cancel()
                 setIsPlaying(false)
             }, track.duration * 1000)
         }
+    }
+
+    const stopMidi = () => {
+        Tone.getTransport().stop()
+        Tone.getTransport().cancel()
+        clearInterval(timeout)
+        setIsPlaying(false)
     }
 
     const updateTokens = (x:number, y:number, token:string) => {
@@ -211,6 +223,7 @@ function FileInput() {
                         <div>
                             <a href={midiURL} download="song.mid">Download MIDI File</a>
                             <button onClick={playMidi}>Play MIDI</button>
+                            <button onClick={stopMidi}>Stop</button>
                         </div>
                     )}
                 </div>
