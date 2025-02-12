@@ -215,7 +215,7 @@ function FileInput() {
                 <label htmlFor="transpose">Transpose</label>
                 <input type="number" id="tranpose" defaultValue={steps} onChange={updateSteps}/>
                 <div style={{display: "flex"}}>
-                    <button onClick={generateMidi}>Generate</button>
+                    <button onClick={generateMidi} disabled={(generatingMidi || !imageSrc)} >Generate</button>
                     {generatingMidi &&
                         <span>Generating...</span>
                     }
