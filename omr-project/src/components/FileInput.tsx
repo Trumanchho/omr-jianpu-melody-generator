@@ -177,11 +177,11 @@ function FileInput() {
     }
 
     return (
-        <div>
-            <label htmlFor="myfile">Upload File:</label>
-            <input type="file" id="myfile" name="myfile" onChange={uploadFile} onClick={resetFile}/>
-            {/* <button onClick={uploadFile}>Detect Jianpu</button> */}
-
+        <main>
+            <label htmlFor="file-input" className="custom-file-input"> 
+                <i className="fa-solid fa-plus"></i> Upload File
+            </label>
+            <input type="file" id="file-input" name="file-input" onChange={uploadFile} onClick={resetFile}/>
             {imageSrc && <img src={imageSrc} alt="Bounding Boxes" />}
             <div>
                 {charGrid.map((row, rowIndex) => (
@@ -230,7 +230,7 @@ function FileInput() {
             </div>
 
 
-        </div>
+        </main>
     );
 }
 
