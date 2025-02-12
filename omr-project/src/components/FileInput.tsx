@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import * as Tone from "tone"
 import { Midi } from "@tonejs/midi"
-import './FileInput.css'
+import '../styles/FileInput.css'
 
 let steps = 0
 let timeout:any
