@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import * as Tone from "tone"
 import { Midi } from "@tonejs/midi"
 import '../styles/FileInput.css'
+import ImageList from "./ImageList"
 
 let steps = 0
 let timeout:any
@@ -182,7 +183,7 @@ function FileInput() {
                 <i className="fa-solid fa-plus"></i> Upload File
             </label>
             <input type="file" id="file-input" name="file-input" onChange={uploadFile} onClick={resetFile}/>
-            {imageSrc && <img src={imageSrc} alt="Bounding Boxes" />}
+            <ImageList imageSrc={imageSrc}></ImageList>
             <div>
                 {charGrid.map((row, rowIndex) => (
                     <div key={rowIndex} className="horizontal">

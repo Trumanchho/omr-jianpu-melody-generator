@@ -1,0 +1,46 @@
+.vertical-centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.img-container {
+    width: 250px;
+    height: 350px;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+.img-container > img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+#list {
+    background-color: rgb(240, 240, 240);
+    display: flex;
+    width: 100vw;
+    padding: 10px;
+    
+}
+
+#zoom-overlay {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    transition: .2s;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#zoom-overlay:hover {
+    opacity: .6;
+}
+
