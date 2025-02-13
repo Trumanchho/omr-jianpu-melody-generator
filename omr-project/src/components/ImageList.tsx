@@ -40,7 +40,6 @@ function ImageList() {
             
             setImageSrc([...imageSrc, `data:image/png;base64,${result.image}`])
             setCharGrid([...charGrid, result.char_list])
-            console.log(charGrid)
         }
     }
     const removeImage = (i:number) => {

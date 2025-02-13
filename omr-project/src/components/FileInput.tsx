@@ -43,7 +43,6 @@ function FileInput() {
         if (charGrid.length !== 0 && tokens.length === 0) {
             let token_grid = []
             for (let i=0;i<charGrid.length;i++) {
-                console.log(charGrid[i])
                 const data = {'char_list': charGrid[i], 'bpm': bpm, 'steps': steps}
                 let response = await fetch(`${import.meta.env.VITE_API_URL}/omr-results`,
                     {
