@@ -2,11 +2,14 @@ import React , {useState} from 'react'
 import { useUpdateCharGrid, useCharGrid } from '../contexts/charGridContext'
 import '../styles/ImageList.css'
 import { useTokens, useUpdateTokens } from '../contexts/tokenContext'
+import { kMaxLength } from 'buffer'
 
 function ImageList() {
     const [imageSrc, setImageSrc] = useState<string[]>([])
     const [largeImg, setLargeImg] = useState<string>('')
+    const [largeImgIdx, setLargeImgIdx] = useState<number>(0)
     const [showLarge, setShowLarge] = useState<boolean>(false)
+
 
     // Contexts
     const setCharGrid = useUpdateCharGrid()
@@ -50,17 +53,31 @@ function ImageList() {
     }
 
     const showLargeImage = (i:number) => {
+        setLargeImgIdx(i)
         setLargeImg(imageSrc[i])
         setShowLarge(true)
     }
     const hideLargeImage = () => {
         setShowLarge(false)
     }
+    const nextLargeImage = (right:boolean) => {
+        if (right) {
+            setLargeImg(imageSrc[largeImgIdx + 1])
+            setLargeImgIdx(largeImgIdx + 1)
+        } else {
+            setLargeImg(imageSrc[largeImgIdx -1])
+            setLargeImgIdx(largeImgIdx - 1)
+        }
+    }
 
     return (
         <div>
             { showLarge && <div id="large-img-overlay" className='vertical'>
-                <img src={largeImg} alt="" />
+                <div className='horizontal'>
+                    {largeImgIdx !== 0 && <button onClick={()=>nextLargeImage(false)} className='next-button'><i className="fa-solid fa-less-than"></i></button>}
+                    <img id='large-img' src={largeImg} alt="" />
+                    {largeImgIdx !== imageSrc.length -1 && <button onClick={()=>nextLargeImage(true)} className='next-button'><i className="fa-solid fa-greater-than"></i></button>}
+                </div>
                 <button onClick={hideLargeImage}>Close</button>
             </div>}
             <div id='list'>

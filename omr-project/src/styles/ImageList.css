@@ -78,6 +78,11 @@ input[type='file'] {
     color: white;
 }
 
+#large-img {
+    object-fit: contain;
+    max-width: 60vw;
+}
+
 #large-img-overlay {
     display: flex;
     justify-content: center;
@@ -86,11 +91,26 @@ input[type='file'] {
     top: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     z-index: 1;
 }
-#large-img-overlay > img {
-    height: 80%%;
+#large-img-overlay > div {
+    height: 80%;
+}
+
+.next-button {
+    border: none;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    opacity: .3;
+    margin: 10px;
+    transition: .2s;
+}
+.next-button:hover {
+    background-color: white;
+    color: rgb(180, 180, 180);
+    opacity: .8;
 }
 
 
