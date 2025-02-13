@@ -4,7 +4,7 @@ import time
 
 #songs
 songs = {
-    "song": "1u2uB3LL2u1uB5L53u3uB1hL1hD3uB5L5u3u3u5uB6L6D3uB5L5D6luB6lL4D3uB2L2D1uB3LL2u1uB5L53u3uB1hu1h1hu1hD3uB5L5D3uB6L6D3uB5L5D3uB4u4D3D2uB1L1hu1h2huB3hL5u3h2huB2hL2hD5uB1hD1hu2hD1huB35L3u5uB6D3u7LB7D3u1hLB6u66u1hD7uB1hLL",
+    "song": "",
 }
 
 # Map numbers 1-7 to MIDI note values (C4-B4)
