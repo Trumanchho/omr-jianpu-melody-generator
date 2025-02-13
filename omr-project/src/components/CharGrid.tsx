@@ -3,13 +3,13 @@ import * as Tone from "tone"
 import { Midi } from "@tonejs/midi"
 import { useCharGrid, useUpdateCharGrid } from "../contexts/charGridContext"
 
-import '../styles/FileInput.css'
+import '../styles/CharGrid.css'
 import { useTokens, useUpdateTokens } from "../contexts/tokenContext"
 
 let steps = 0
 let timeout:any
 
-function FileInput() {
+function CharGrid() {
 
     const [midiURL, setMidiURL] = useState<string>("")
     const [midi, setMidi] = useState<Midi | null>(null)
@@ -221,4 +221,4 @@ function FileInput() {
     );
 }
 
-export default FileInput
+export default CharGrid

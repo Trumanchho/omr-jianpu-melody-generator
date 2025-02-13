@@ -1,4 +1,4 @@
-import FileInput from './components/FileInput';
+import CharGrid from './components/CharGrid';
 import ImageList from './components/ImageList';
 import CharGridProvider from './contexts/charGridContext';
 import { TokensProvider } from './contexts/tokenContext';
@@ -9,8 +9,8 @@ function App() {
       <h1>Jianpu Scanner</h1>
       <TokensProvider>
       <CharGridProvider>
-        <ImageList></ImageList>
-        <FileInput/>
+        <ImageList/>
+        <CharGrid/>
       </CharGridProvider>
       </TokensProvider>
     </div>
