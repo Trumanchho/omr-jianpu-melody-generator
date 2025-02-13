@@ -78,4 +78,19 @@ input[type='file'] {
     color: white;
 }
 
+#large-img-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+#large-img-overlay > img {
+    height: 80%%;
+}
+
 

@@ -3,9 +3,10 @@ import { useUpdateCharGrid, useCharGrid } from '../contexts/charGridContext'
 import '../styles/ImageList.css'
 import { useTokens, useUpdateTokens } from '../contexts/tokenContext'
 
-
 function ImageList() {
     const [imageSrc, setImageSrc] = useState<string[]>([])
+    const [largeImg, setLargeImg] = useState<string>('')
+    const [showLarge, setShowLarge] = useState<boolean>(false)
 
     // Contexts
     const setCharGrid = useUpdateCharGrid()
@@ -47,22 +48,37 @@ function ImageList() {
         setCharGrid(prev => prev.filter((_, index) => index !== i));
         setTokens(prev => prev.filter((_, index) => index !== i))
     }
+
+    const showLargeImage = (i:number) => {
+        setLargeImg(imageSrc[i])
+        setShowLarge(true)
+    }
+    const hideLargeImage = () => {
+        setShowLarge(false)
+    }
+
     return (
-        <div id='list'>
-            {imageSrc.map((_, i) => (
-                <div className='img-container' key={`img-container-${i}`}>
-                    <div id='img-overlay' className='horizontal'>
-                        <button><i className="fa-solid fa-magnifying-glass fa-2x"></i></button>
-                        <button onClick={() => removeImage(i)}><i className="fa-solid fa-trash fa-2x"></i></button>
+        <div>
+            { showLarge && <div id="large-img-overlay" className='vertical'>
+                <img src={largeImg} alt="" />
+                <button onClick={hideLargeImage}>Close</button>
+            </div>}
+            <div id='list'>
+                {imageSrc.map((_, i) => (
+                    <div className='img-container' key={`img-container-${i}`}>
+                        <div id='img-overlay' className='horizontal'>
+                            <button onClick={() => showLargeImage(i)}><i className="fa-solid fa-magnifying-glass fa-2x"></i></button>
+                            <button onClick={() => removeImage(i)}><i className="fa-solid fa-trash fa-2x"></i></button>
+                        </div>
+                        <img src={imageSrc[i]} alt="" />
                     </div>
-                    <img src={imageSrc[i]} alt="" />
-                </div>
-                ))
-            }
-            <label htmlFor="file-input" className="list-input"> 
-                <i className="fa-solid fa-plus"></i>
-            </label>
-            <input type="file" id="file-input" name="file-input" onClick={resetFile} onChange={uploadFile}/>
+                    ))
+                }
+                <label htmlFor="file-input" className="list-input"> 
+                    <i className="fa-solid fa-plus"></i>
+                </label>
+                <input type="file" id="file-input" name="file-input" onClick={resetFile} onChange={uploadFile}/>
+            </div>
         </div>
     )
 }
