@@ -3,10 +3,6 @@ main {
     width: 100vw;
 }
 
-input[type='file'] {
-    display: none;
-}
-
 .horizontal {
     display: flex;
 }
@@ -16,18 +12,7 @@ input[type='file'] {
     flex-direction: column;
 }
 
-.custom-file-input {
-    cursor: pointer;
-    color: rgb(192, 192, 192);
-    border: 2px dashed rgb(192, 192, 192);
-    border-radius: 3px;
-    padding: 5px;
-    transition-duration: .2s;
-}
-.custom-file-input:hover {
-    color: gray;
-    border: 2px dashed gray;
-}
+
 .token-input {
     width: 32px;
 }

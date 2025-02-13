@@ -1,15 +1,14 @@
-.vertical-centered {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+
+input[type='file'] {
+    display: none;
 }
 
 .img-container {
     width: 250px;
+    min-width: 250px;
     height: 350px;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 5px;
     overflow: hidden;
     position: relative;
 }
@@ -19,15 +18,35 @@
     object-fit: fill;
 }
 
+.list-input {
+    display: flex;
+    height: 350px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    background-color: rgb(149, 197, 156);
+    opacity: .5;
+    border-radius: 3px;
+    padding: 5px;
+    transition-duration: .2s;
+}
+.list-input:hover {
+    opacity: 1;
+}
+
 #list {
     background-color: rgb(240, 240, 240);
     display: flex;
-    width: 100vw;
+    flex-wrap: nowrap;
+    max-width: 100vw;
     padding: 10px;
+    overflow-x: auto;
+    gap: 10px;
     
 }
 
-#zoom-overlay {
+#img-overlay {
     background-color: rgb(0, 0, 0);
     color: white;
     width: 100%;
@@ -35,12 +54,28 @@
     opacity: 0;
     position: absolute;
     transition: .2s;
-    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-#zoom-overlay:hover {
+#img-overlay:hover {
     opacity: .6;
 }
+
+#img-overlay > button {
+    margin: 5px;
+    padding: 5px;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(240, 240, 240);
+    color: black;
+    transition: .2s;
+}
+#img-overlay > button:hover {
+    background-color: rgb(155, 155, 155);
+    color: white;
+}
+
 

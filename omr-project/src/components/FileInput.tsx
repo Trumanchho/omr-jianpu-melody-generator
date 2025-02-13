@@ -1,68 +1,81 @@
 import React, { useState } from "react"
 import * as Tone from "tone"
 import { Midi } from "@tonejs/midi"
+import { useCharGrid, useUpdateCharGrid } from "../contexts/charGridContext"
+
 import '../styles/FileInput.css'
-import ImageList from "./ImageList"
+import { useTokens, useUpdateTokens } from "../contexts/tokenContext"
 
 let steps = 0
 let timeout:any
 
-
 function FileInput() {
 
-    const [imageSrc, setImageSrc] = useState<string | null>(null)
-    const [charGrid, setCharGrid] = useState<string[][]>([])
-    const [tokens, setTokens] = useState<string[][]>([])
     const [midiURL, setMidiURL] = useState<string>("")
     const [midi, setMidi] = useState<Midi | null>(null)
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
-    const [generatingMidi, setGeneratingMidi] = useState<boolean>(false)
+    const [predictingMidi, setpredictingMidi] = useState<boolean>(false)
     const [bpm, setBpm] = useState<number>(120)
 
-    let token_idx:number = 0
+    // Contexts
+    const charGrid = useCharGrid()
+    const setCharGrid = useUpdateCharGrid()
+    const tokens = useTokens()
+    const setTokens = useUpdateTokens()
 
-    const resetFile = (e:any) => {
-        e.target.value = null
-        setTokens([])
-        // Clear all text inputs (maybe select by class in case other text inputs are used)
-        const inputs = document.querySelectorAll('input[type="text"]')
-        inputs.forEach(input => {
-            (input as HTMLInputElement).value = '' 
+    const deleteRow = (page:number, row:number) => {
+        setCharGrid(grid => {
+            return  grid.map((p, pageIndex) => 
+                pageIndex === page ? p.filter((_, i) => i !== row) : p
+            )
+        })
+        setTokens(grid => {
+            return  grid.map((p, pageIndex) => 
+                pageIndex === page ? p.filter((_, i) => i !== row) : p
+            )
         })
     }
 
-    const uploadFile = async (e:any) => {
+    const predictMidi = async () => {
         
-        let file = e.target.files[0]
-        if (file) {
-            const data = new FormData()
-            data.append("file", file)
-
-            let response = await fetch(`${import.meta.env.VITE_API_URL}/omr-results`,
-                {
-                    method: 'POST',
-                    body: data,
+        setpredictingMidi(true)
+        let res:any
+        if (charGrid.length !== 0 && tokens.length === 0) {
+            let token_grid = []
+            for (let i=0;i<charGrid.length;i++) {
+                console.log(charGrid[i])
+                const data = {'char_list': charGrid[i], 'bpm': bpm, 'steps': steps}
+                let response = await fetch(`${import.meta.env.VITE_API_URL}/omr-results`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json'},
+                        body: JSON.stringify(data)
+                    })
+    
+                res = await response.json()
+    
+                // Reshape tokens to match char_grid
+                let reshaped_tokens = []
+                let res_token_idx = 0
+                for (let j=0;j<charGrid[i].length;j++) {
+                    let token_row:string[] = []
+                    for (let k=0;k<charGrid[i][j].length;k++) {
+                            token_row.push(res.tokens[res_token_idx])
+                            res_token_idx++
+                    }
+                    reshaped_tokens.push(token_row)
                 }
-            )
-
-            let result = await response.json()
-            setImageSrc(`data:image/png;base64,${result.image}`)
-            setCharGrid(result.char_list)
+                token_grid.push(reshaped_tokens)
+            }
+            setTokens(token_grid)
         }
-
-    }
-
-    const deleteRow = (idx:number) => {
-        setCharGrid(grid => grid.filter((_, i) => i !== idx))
-        setTokens(grid => grid.filter((_, i) => i !== idx))
+        setpredictingMidi(false)
     }
 
     const generateMidi = async () => {
-        
-        setGeneratingMidi(true)
         let res:any
         if (tokens.length != 0) {
-            const data = {'tokens': tokens.flat(), 'bpm': bpm, 'steps': steps}
+            const data = {'tokens': tokens.flat(2), 'bpm': bpm, 'steps': steps}
             let response = await fetch(`${import.meta.env.VITE_API_URL}/omr-results`,
                 {
                     method: 'POST',
@@ -70,31 +83,7 @@ function FileInput() {
                     body: JSON.stringify(data)
                 })
             res = await response.json()
-        } else if (charGrid.length !== 0) {
-            const data = {'char_list': charGrid, 'bpm': bpm, 'steps': steps}
-            let response = await fetch(`${import.meta.env.VITE_API_URL}/omr-results`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json'},
-                    body: JSON.stringify(data)
-                })
-
-            res = await response.json()
-
-            // Reshape tokens to match char_grid
-            let reshaped_tokens = []
-            let k = 0
-            for (let i=0;i<charGrid.length;i++) {
-                let token_row:string[] = []
-                for (let j=0;j<charGrid[i].length;j++) {
-                    token_row.push(res.tokens[k])
-                    k++
-                }
-                reshaped_tokens.push(token_row)
-            }
-            setTokens(reshaped_tokens)
         }
-
         // Start of code adapted from https://saturncloud.io/blog/creating-a-blob-from-a-base64-string-in-javascript/#:~:text=BLOB%20in%20JavaScript-,To%20convert%20a%20Base64%20string%20to%20a%20BLOB%20in%20JavaScript,creates%20a%20new%20BLOB%20object.
         if (res) {
             let byteCharacters = atob(res.b64_midi_file)
@@ -105,13 +94,12 @@ function FileInput() {
             }
     
             let byteArray = new Uint8Array(byteArrays)
-            // End of adapted code
+        // End of adapted code
             let blob = new Blob([byteArray])
             
             let midi = new Midi(byteArray.buffer)
             setMidi(midi)
             setMidiURL(URL.createObjectURL(blob))
-            setGeneratingMidi(false)
         }
     }
 
@@ -161,10 +149,10 @@ function FileInput() {
         setIsPlaying(false)
     }
 
-    const updateTokens = (x:number, y:number, token:string) => {
+    const updateTokens = (x:number, y:number, z:number, token:string) => {
         setTokens(prev => {
             let temp = [...prev]
-            temp[x][y] = token
+            temp[x][y][z] = token
             return temp
         })
 
@@ -178,60 +166,59 @@ function FileInput() {
     }
 
     return (
-        <main>
-            <label htmlFor="file-input" className="custom-file-input"> 
-                <i className="fa-solid fa-plus"></i> Upload File
-            </label>
-            <input type="file" id="file-input" name="file-input" onChange={uploadFile} onClick={resetFile}/>
-            <ImageList imageSrc={imageSrc}></ImageList>
-            <div>
-                {charGrid.map((row, rowIndex) => (
-                    <div key={rowIndex} className="horizontal">
-                        <div>
-                            <span>Line {rowIndex}</span>
-                            <button onClick={() => deleteRow(rowIndex)}>
-                                <i className="fa-solid fa-trash"></i>
-                            </button>
-                        </div>
-                        {row.map((char, colIndex) => {
-                            token_idx++
-                            return (
-                            <div className="vertical" key={`${rowIndex}-${colIndex}`}>
-                                <img 
-                                    src={`data:image/png;base64,${char}`} 
-                                    alt=""
-                                    style={{ border: '1px solid black' }} 
-                                />
-                                <input id={`${token_idx-1}`} className="token-input" type="text" 
-                                    value={tokens.length > 0 ? tokens[rowIndex][colIndex] : ''} 
-                                    onChange={(e) => updateTokens(rowIndex, colIndex, e.target.value)}
-                                />
+        <div>
+            {charGrid.map((page, pageIndex) => {
+                return (
+                <div key={`${pageIndex}`}>
+                    <span>Page {pageIndex}</span>
+                    {page.map((row, rowIndex) => {
+                        return (
+                        <div key={`${pageIndex}-${rowIndex}`} className="horizontal">
+                            <div>
+                                <span>Line {rowIndex}</span>
+                                <button onClick={() => deleteRow(pageIndex, rowIndex)}>
+                                    <i className="fa-solid fa-trash"></i>
+                                </button>
                             </div>
-                        )})}    
-                    </div>
-                ))}
-                <input type="range" id="bpm" min="40" max="140" value={bpm} onChange={updateBpm}/>
-                <label htmlFor="bpm">BPM: {bpm}</label><br/>
-                {/* remove temp br tag later */}
-                <label htmlFor="transpose">Transpose</label>
-                <input type="number" id="tranpose" defaultValue={steps} onChange={updateSteps}/>
-                <div style={{display: "flex"}}>
-                    <button onClick={generateMidi} disabled={(generatingMidi || !imageSrc)} >Generate</button>
-                    {generatingMidi &&
-                        <span>Generating...</span>
-                    }
-                    {midiURL && !generatingMidi && (
-                        <div>
-                            <a href={midiURL} download="song.mid">Download MIDI File</a>
-                            <button onClick={playMidi}>Play MIDI</button>
-                            <button onClick={stopMidi}>Stop</button>
+                            {row.map((char, colIndex) => {
+                                return (
+                                <div className="vertical" key={`${pageIndex}-${rowIndex}-${colIndex}`}>
+                                    <img 
+                                        src={`data:image/png;base64,${char}`} 
+                                        alt=""
+                                        style={{ border: '1px solid black' }} 
+                                    />
+                                    <input className="token-input" type="text" 
+                                        value={tokens.length > 0 ? tokens[pageIndex][rowIndex][colIndex] : ''} 
+                                        onChange={(e) => updateTokens(pageIndex, rowIndex, colIndex, e.target.value)}
+                                    />
+                                </div>
+                            )})}    
                         </div>
-                    )}
+                    )})}
                 </div>
+            )})}
+
+            <input type="range" id="bpm" min="40" max="140" value={bpm} onChange={updateBpm}/>
+            <label htmlFor="bpm">BPM: {bpm}</label><br/>
+            {/* remove temp br tag later */}
+            <label htmlFor="transpose">Transpose</label>
+            <input type="number" id="tranpose" defaultValue={steps} onChange={updateSteps}/>
+            <div style={{display: "flex"}}>
+                <button onClick={predictMidi} disabled={(predictingMidi)} >Predict</button>
+                {predictingMidi &&
+                    <span>Predicting Notes...</span>
+                }
+                <button onClick={generateMidi} disabled={tokens.length === 0}>Generate MIDI</button>
+                {midiURL && !predictingMidi && (
+                    <div>
+                        <a href={midiURL} download="song.mid">Download MIDI File</a>
+                        <button onClick={playMidi}>Play MIDI</button>
+                        <button onClick={stopMidi}>Stop</button>
+                    </div>
+                )}
             </div>
-
-
-        </main>
+        </div>
     );
 }
 
