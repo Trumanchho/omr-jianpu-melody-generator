@@ -5,6 +5,7 @@ import { useCharGrid, useUpdateCharGrid } from "../contexts/charGridContext"
 
 import '../styles/CharGrid.css'
 import { useTokens, useUpdateTokens } from "../contexts/tokenContext"
+import { useIsPredicting, useUpdateIsPredicting } from "../contexts/isPredictingContext"
 
 let steps = 0
 let timeout:any
@@ -14,7 +15,6 @@ function CharGrid() {
     const [midiURL, setMidiURL] = useState<string>("")
     const [midi, setMidi] = useState<Midi | null>(null)
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
-    const [predictingMidi, setpredictingMidi] = useState<boolean>(false)
     const [bpm, setBpm] = useState<number>(120)
 
     // Contexts
@@ -22,6 +22,8 @@ function CharGrid() {
     const setCharGrid = useUpdateCharGrid()
     const tokens = useTokens()
     const setTokens = useUpdateTokens()
+    const predictingMidi = useIsPredicting()
+    const setpredictingMidi = useUpdateIsPredicting()
 
     const deleteRow = (page:number, row:number) => {
         setCharGrid(grid => {

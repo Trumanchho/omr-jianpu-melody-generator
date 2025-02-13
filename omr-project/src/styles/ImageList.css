@@ -73,7 +73,7 @@ input[type='file'] {
     color: black;
     transition: .2s;
 }
-#img-overlay > button:hover {
+#img-overlay > button:hover, #img-overlay > button:disabled {
     background-color: rgb(155, 155, 155);
     color: white;
 }

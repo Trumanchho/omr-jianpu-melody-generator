@@ -2,7 +2,7 @@ import React , {useState} from 'react'
 import { useUpdateCharGrid, useCharGrid } from '../contexts/charGridContext'
 import '../styles/ImageList.css'
 import { useTokens, useUpdateTokens } from '../contexts/tokenContext'
-import { kMaxLength } from 'buffer'
+import { useIsPredicting } from '../contexts/isPredictingContext'
 
 function ImageList() {
     const [imageSrc, setImageSrc] = useState<string[]>([])
@@ -16,6 +16,7 @@ function ImageList() {
     const charGrid = useCharGrid()
     const tokens = useTokens()
     const setTokens = useUpdateTokens()
+    const isPredicting = useIsPredicting()
 
     const resetFile = (e:any) => {
         e.target.value = null
@@ -85,7 +86,7 @@ function ImageList() {
                     <div className='img-container' key={`img-container-${i}`}>
                         <div id='img-overlay' className='horizontal'>
                             <button onClick={() => showLargeImage(i)}><i className="fa-solid fa-magnifying-glass fa-2x"></i></button>
-                            <button onClick={() => removeImage(i)}><i className="fa-solid fa-trash fa-2x"></i></button>
+                            <button onClick={() => removeImage(i)} disabled={isPredicting}><i className="fa-solid fa-trash fa-2x"></i></button>
                         </div>
                         <img src={imageSrc[i]} alt="" />
                     </div>

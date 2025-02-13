@@ -21,3 +21,5 @@ export const TokensProvider = ({ children }: { children:React.ReactNode }) => {
         </TokensContext.Provider>    
     )
 }
+
+export default TokensProvider
