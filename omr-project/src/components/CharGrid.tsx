@@ -48,7 +48,7 @@ function CharGrid() {
                         ) :p
                     )
                 )
-        setCharGrid(grid => 
+        setTokens(grid => 
             grid.map((p, pageIndex) =>
                 pageIndex === page
                     ? p.map((r, rowIndex) => 
