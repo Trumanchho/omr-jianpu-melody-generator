@@ -37,6 +37,28 @@ function CharGrid() {
             )
         })
     }
+    const deleteChar = (page:number, row:number, col:number) => {
+        setCharGrid(grid => 
+            grid.map((p, pageIndex) =>
+                pageIndex === page
+                    ? p.map((r, rowIndex) => 
+                        rowIndex === row
+                            ? r.filter((_,colIndex) => colIndex !== col) : r
+  
+                        ) :p
+                    )
+                )
+        setCharGrid(grid => 
+            grid.map((p, pageIndex) =>
+                pageIndex === page
+                    ? p.map((r, rowIndex) => 
+                        rowIndex === row
+                            ? r.filter((_,colIndex) => colIndex !== col) : r
+    
+                        ) :p
+                    )
+                )
+    }
 
     const predictMidi = async () => {
         
@@ -184,6 +206,7 @@ function CharGrid() {
                             {row.map((char, colIndex) => {
                                 return (
                                 <div className="vertical" key={`${pageIndex}-${rowIndex}-${colIndex}`}>
+                                    <button onClick={() => deleteChar(pageIndex, rowIndex, colIndex)}><i className="fa-solid fa-trash"></i></button>
                                     <img 
                                         src={`data:image/png;base64,${char}`} 
                                         alt=""
