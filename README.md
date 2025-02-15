@@ -28,9 +28,13 @@ https://github.com/user-attachments/assets/47411c83-5ae8-4b37-bf13-0a6b6ae2bf29
 - Improved segmentation results for connected underlines
 
 ### Running the Web App
+**Requirements**
+- [Python/pip](https://www.python.org/downloads/)
+- [Node/npm](https://nodejs.org/en/download)
+
 **1. Start Flask server**
 - In your terminal, navigate to the flask-server directory i.e., ```cd flask-server```
-- (Optional) Create a virtual environment before installing dependencies 
+- (Optional) Create a virtual environment before installing dependencies i.e., ```python -m venv venv```. Then run ```./env/Scripts/activate``` on Windows or ```source env/bin/activate``` for Mac
 - Run ```pip install -r requirements.txt``` to install dependencies
 - Run ```python server.py``` to start flask server
 - The server should be running on [localhost:5000](http://127.0.0.1:5000).
