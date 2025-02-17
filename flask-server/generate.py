@@ -103,7 +103,7 @@ def detect_jianpu(img):
             i += 1
             char_img = og_img[y:y+l, x:x+l]
             char_img = cv2.resize(char_img, (32, 32))
-            #cv2.imwrite(f"raw_data/{i}.PNG", char_img)
+            cv2.imwrite(f"raw_data/{i}.PNG", char_img)
             cv2.rectangle(bbox_img, (x, y), (x+l, y+l), (36 + 3*i, 255, 12), 2)
             line.append(char_img)
         char_images.append(line)
