@@ -41,7 +41,7 @@ def combine_tokens(token_arr):
         out_string += token
     return out_string
 
-def generate_midi_file(token_arr, duration, steps=0):
+def generate_midi_file(token_arr, duration, steps=0, filename='song'):
     scale = note_map.copy()
     transpose(steps, scale)
     tempo = duration
@@ -82,7 +82,7 @@ def generate_midi_file(token_arr, duration, steps=0):
             pass
             #print(f"Invalid character '{token}' in input. Skipping.")
         prev_duration = duration
-    midi.save('output_midi/song.mid')
+    midi.save(f'output_midi/{filename}.mid')
 
 def play_notes(token_arr, duration):
     tempo = duration/2

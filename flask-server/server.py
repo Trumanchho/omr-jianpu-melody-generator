@@ -6,6 +6,7 @@ from melody_generator import split_string, play_notes, generate_midi_file, combi
 
 import cv2
 import base64
+import os
 
 
 app = Flask(__name__)
@@ -45,7 +46,6 @@ def omrResults():
             generate_midi_file(tokens, 120/data['bpm'], steps=data['steps'])
             
         else: # Tokens are not given. Need to predict...
-            bpm = 120 / data['bpm']
             img_list = []
             for row in data['char_list']:
                 img_row = []
@@ -55,11 +55,10 @@ def omrResults():
                     img_row.append(img)
                 img_list.append(img_row)
             
-
             tokens = split_string(predict_jianpu(img_list))
-            generate_midi_file(tokens, bpm, steps=data['steps'])
-
-        with open('output_midi/song.mid', "rb") as midi_file:
+            generate_midi_file(tokens, 120/data['bpm'], steps=data['steps'])
+        
+        with open(f"output_midi/song.mid", "rb") as midi_file:
             b64_midi_file = base64.b64encode(midi_file.read()).decode('utf-8')
 
         return {'b64_midi_file': b64_midi_file, 'tokens': tokens}

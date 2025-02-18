@@ -16,6 +16,7 @@ function CharGrid() {
     const [midi, setMidi] = useState<Midi | null>(null)
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
     const [bpm, setBpm] = useState<number>(120)
+    const [fileName, setFileName] = useState<string>("song")
 
     // Contexts
     const charGrid = useCharGrid()
@@ -228,6 +229,8 @@ function CharGrid() {
             {/* remove temp br tag later */}
             <label htmlFor="transpose">Transpose</label>
             <input type="number" id="tranpose" defaultValue={steps} onChange={updateSteps}/>
+            <label htmlFor="file-name">File Name:</label>
+            <input id="file-name" type="text" onChange={(e) => setFileName(e.target.value)}/>
             <div style={{display: "flex"}}>
                 <button onClick={predictMidi} disabled={(predictingMidi)} >Predict</button>
                 {predictingMidi &&
@@ -236,7 +239,7 @@ function CharGrid() {
                 <button onClick={generateMidi} disabled={tokens.length === 0}>Generate MIDI</button>
                 {midiURL && !predictingMidi && (
                     <div>
-                        <a href={midiURL} download="song.mid">Download MIDI File</a>
+                        <a href={midiURL} download={`${fileName}.mid`}>Download MIDI File</a>
                         <button onClick={playMidi}>Play MIDI</button>
                         <button onClick={stopMidi}>Stop</button>
                     </div>
