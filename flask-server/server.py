@@ -2,7 +2,7 @@ from flask import Flask, request, send_from_directory
 from flask_cors import CORS
 
 from generate import fileBuff2Img, detect_jianpu, predict_jianpu, resize_image
-from melody_generator import split_string, play_notes, generate_midi_file
+from melody_generator import split_string, play_notes, generate_midi_file, combine_tokens
 
 import cv2
 import base64
@@ -40,8 +40,10 @@ def omrResults():
         data = request.get_json()
 
         if 'tokens' in data: # Tokens are given
-            generate_midi_file(data['tokens'], 120/data['bpm'], steps=data['steps'])
-            tokens = data['tokens']
+            string = combine_tokens(data['tokens'])
+            tokens = split_string(string)
+            generate_midi_file(tokens, 120/data['bpm'], steps=data['steps'])
+            
         else: # Tokens are not given. Need to predict...
             bpm = 120 / data['bpm']
             img_list = []

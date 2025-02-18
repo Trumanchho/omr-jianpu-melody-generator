@@ -89,6 +89,12 @@ def detect_jianpu(img):
     
     contour_groups = sort_contours(filtered_contours, y_threshold=5)
 
+    for g in contour_groups: # remove overlapping elements
+        for i in range(len(g)-1, 0, -1):
+            if i-1 >= 0 and abs(cv2.boundingRect(g[i])[0] - cv2.boundingRect(g[i-1])[0]) < 5 and abs(cv2.boundingRect(g[i])[1] - cv2.boundingRect(g[i-1])[1]) < 5:
+                print(cv2.boundingRect(g[i])[0], cv2.boundingRect(g[i])[1], i, cv2.boundingRect(g[i-1])[0], cv2.boundingRect(g[i-1])[1])
+                g.pop(i)
+
     char_images = []
     
     i = -1

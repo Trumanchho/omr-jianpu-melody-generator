@@ -35,6 +35,11 @@ def split_string(string):
             i += 1
         tokens.append(token)
     return tokens
+def combine_tokens(token_arr):
+    out_string = ''
+    for token in token_arr:
+        out_string += token
+    return out_string
 
 def generate_midi_file(token_arr, duration, steps=0):
     scale = note_map.copy()
