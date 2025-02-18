@@ -79,7 +79,7 @@ def detect_jianpu(img):
     # Contours of numbers
     contours = cv2.findContours(eroded_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     contours = contours[0] if len(contours) == 2 else contours[1]
-    #filtered_contours = list(contours)
+    filtered_contours = list(contours)
     filtered_contours = list(filter(lambda x: cv2.boundingRect(x)[3] >= 5, contours))
     
     # Contours of dots and lines
@@ -87,7 +87,7 @@ def detect_jianpu(img):
     contours = contours[0] if len(contours) == 2 else contours[1]
     filtered_contours.extend(list(filter(lambda x: cv2.boundingRect(x)[3] < 10, contours)))
     
-    contour_groups = sort_contours(filtered_contours, y_threshold=5)
+    contour_groups = sort_contours(filtered_contours)
 
     for g in contour_groups: # remove overlapping elements
         for i in range(len(g)-1, 0, -1):
