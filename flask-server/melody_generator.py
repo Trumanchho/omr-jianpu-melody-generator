@@ -65,6 +65,8 @@ def generate_midi_file(token_arr, duration, steps=0, filename='song'):
                 note -= 12
             if 'u' in token: # change note length
                 duration /= 2
+            elif 't' in token:
+                duration /= 3
             elif 'w' in token:
                 duration /= 4
             if sharp:
@@ -78,6 +80,10 @@ def generate_midi_file(token_arr, duration, steps=0, filename='song'):
             track.append(Message('note_off', note=0, velocity=0, time=int( 480*prev_duration/2)))
         elif token[0] == 'S': # Sharp (#)
             sharp = True
+        elif token == 'Qr':
+            track.append(Message('note_off', note=0, velocity=0, time=int( 480*duration)))
+        elif token == 'Er':
+            track.append(Message('note_off', note=0, velocity=0, time=int( 480*duration/2)))
         else:
             pass
             #print(f"Invalid character '{token}' in input. Skipping.")
