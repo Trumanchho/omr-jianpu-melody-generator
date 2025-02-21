@@ -4,6 +4,8 @@ import CharGridProvider from './contexts/charGridContext';
 import TokensProvider from './contexts/tokenContext';
 import IsPredictingProvider from './contexts/isPredictingContext';
 
+import './App.css'
+
 function App() {
   return (
     <div>

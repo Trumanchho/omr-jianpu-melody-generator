@@ -16,3 +16,33 @@ main {
 .token-input {
     width: 32px;
 }
+
+.trash-button {
+    background-color: rgb(236, 101, 101);
+    color: white;
+    overflow: hidden;
+    border: none;
+    border-radius: 5px;
+    transition: .2s;
+}
+.trash-button:hover {
+    opacity: .5;
+}
+
+#char-list-page{
+    padding: 10px;
+}
+
+#char-list-row {
+    background-color: rgb(85, 85, 85);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+#char-list-row > * {
+    background-color: rgb(85, 85, 85);
+}
+
+#char-list-item {
+    margin: 5px;
+}

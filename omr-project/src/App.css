@@ -1,0 +1,7 @@
+html {
+    background-color: rgb(50, 50, 50);
+}
+div > div {
+    color: rgb(247, 247, 247);
+    background-color: rgb(50, 50, 50);
+}

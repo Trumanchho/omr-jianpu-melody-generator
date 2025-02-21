@@ -84,7 +84,7 @@ function ImageList() {
             <div id='list'>
                 {imageSrc.map((_, i) => (
                     <div className='img-container' key={`img-container-${i}`}>
-                        <div id='img-overlay' className='horizontal'>
+                        <div id='img-overlay' className='horizontal' >
                             <button onClick={() => showLargeImage(i)}><i className="fa-solid fa-magnifying-glass fa-2x"></i></button>
                             <button onClick={() => removeImage(i)} disabled={isPredicting}><i className="fa-solid fa-trash fa-2x"></i></button>
                         </div>
