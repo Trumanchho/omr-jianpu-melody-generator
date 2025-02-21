@@ -18,7 +18,7 @@ main {
 }
 
 .trash-button {
-    background-color: rgb(236, 101, 101);
+    background-color: rgb(221, 116, 116);
     color: white;
     overflow: hidden;
     border: none;
@@ -37,7 +37,7 @@ main {
     background-color: rgb(85, 85, 85);
     padding: 10px;
     margin-bottom: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 #char-list-row > * {
     background-color: rgb(85, 85, 85);
