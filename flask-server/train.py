@@ -38,7 +38,8 @@ val_dataset = val_dataset.map(process_img).prefetch(tf.data.AUTOTUNE)
 
 # Data aumentation
 data_augmentation = tf.keras.Sequential([
-  tf.keras.layers.RandomZoom(0.2)
+  tf.keras.layers.RandomZoom(0.2),
+  tf.keras.layers.RandomTranslation(height_factor=0.2, width_factor=0.2, fill_mode='nearest')
 ])
 # Define the model
 model = tf.keras.models.Sequential()
@@ -50,10 +51,14 @@ model.add(data_augmentation)
 # Adapted from https://www.youtube.com/watch?v=eMMZpas-zX0&ab_channel=PatrickLoeber
 model.add(tf.keras.layers.Conv2D(32, (3,3), strides=(1,1), padding="valid", activation="relu", input_shape=(32,32,1)))
 model.add(tf.keras.layers.MaxPool2D((2,2)))
+
 model.add(tf.keras.layers.Conv2D(32, 3, activation="relu"))
+#model.add(tf.keras.layers.MaxPool2D((2,2)))
+
+model.add(tf.keras.layers.Conv2D(64, 3, activation="relu"))
 model.add(tf.keras.layers.MaxPool2D((2,2)))
 
-model.add(tf.keras.layers.Flatten(input_shape=(32, 32, 1)))
+model.add(tf.keras.layers.Flatten(input_shape=(64, 64, 1)))
 
 model.add(tf.keras.layers.Dense(128, activation='relu'))
 model.add(tf.keras.layers.Dense(len(class_names), activation='softmax'))
@@ -71,7 +76,7 @@ model.compile(
 )
 
 # Train the model
-model.fit(train_dataset, validation_data=val_dataset, epochs=50)
+model.fit(train_dataset, validation_data=val_dataset, epochs=90)
 
 # Save the model
 model.save('jianpu.model.keras')
