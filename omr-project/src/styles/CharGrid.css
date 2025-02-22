@@ -39,10 +39,14 @@ main {
     margin-bottom: 10px;
     border-radius: 10px;
     align-items: center;
-    gap: 10px;
 }
 #char-list-row > * {
     background-color: rgb(70, 70, 70);
+}
+#char-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 #char-list-item > button {
