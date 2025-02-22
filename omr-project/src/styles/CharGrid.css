@@ -45,9 +45,6 @@ main {
     background-color: rgb(85, 85, 85);
 }
 
-#char-list-item {
-    /* margin: 5px; */
-}
 #char-list-item > button {
     border-radius: 5px 5px 0px 0px;
 }
