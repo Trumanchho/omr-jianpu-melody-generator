@@ -1,7 +1,5 @@
-html {
-    background-color: rgb(50, 50, 50);
-}
-div > div {
+
+#main, #main > div {
     color: rgb(247, 247, 247);
     background-color: rgb(50, 50, 50);
 }
@@ -17,4 +15,14 @@ input {
 input:focus {
     border: none;
     opacity: 1;
+}
+
+#main {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#main > div {
+    width: 50vw;
 }
