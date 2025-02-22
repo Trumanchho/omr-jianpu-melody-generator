@@ -38,13 +38,15 @@ main {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 10px;
+    align-items: center;
+    gap: 10px;
 }
 #char-list-row > * {
     background-color: rgb(85, 85, 85);
 }
 
 #char-list-item {
-    margin: 5px;
+    /* margin: 5px; */
 }
 #char-list-item > button {
     border-radius: 5px 5px 0px 0px;

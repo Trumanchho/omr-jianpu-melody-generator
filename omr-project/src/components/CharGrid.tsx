@@ -198,12 +198,12 @@ function CharGrid() {
                     {page.map((row, rowIndex) => {
                         return (
                         <div key={`${pageIndex}-${rowIndex}`} className="horizontal" id="char-list-row">
-                            <div>
-                                <button onClick={() => deleteRow(pageIndex, rowIndex)} className="trash-button">
-                                    <i className="fa-solid fa-trash"></i>
-                                </button>
-                                <span>Line {rowIndex}: </span>
-                            </div>
+                            
+                            <button onClick={() => deleteRow(pageIndex, rowIndex)} className="trash-button">
+                                <i className="fa-solid fa-trash"></i>
+                            </button>
+                            <span>Line {rowIndex}: </span>
+                            
                             {row.map((char, colIndex) => {
                                 return (
                                 <div className="vertical" key={`${pageIndex}-${rowIndex}-${colIndex}`} id="char-list-item">
