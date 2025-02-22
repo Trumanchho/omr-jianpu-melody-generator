@@ -5,3 +5,16 @@ div > div {
     color: rgb(247, 247, 247);
     background-color: rgb(50, 50, 50);
 }
+
+input {
+    border: none;
+    background-color: rgb(134, 130, 146);
+    color: white;
+    opacity: .5;
+    border-radius: 5px;
+    transition: .2s;
+}
+input:focus {
+    border: none;
+    opacity: 1;
+}

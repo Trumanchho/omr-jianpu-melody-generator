@@ -46,3 +46,10 @@ main {
 #char-list-item {
     margin: 5px;
 }
+#char-list-item > button {
+    border-radius: 5px 5px 0px 0px;
+}
+
+#char-list-item > input {
+    border-radius: 0px 0px 5px 5px;
+}

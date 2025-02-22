@@ -208,11 +208,12 @@ function CharGrid() {
                                 return (
                                 <div className="vertical" key={`${pageIndex}-${rowIndex}-${colIndex}`} id="char-list-item">
                                     <button onClick={() => deleteChar(pageIndex, rowIndex, colIndex)} className="trash-button"><i className="fa-solid fa-trash"></i></button>
-                                    <img 
-                                        src={`data:image/png;base64,${char}`} 
-                                        alt=""
-                                        style={{ border: '1px solid black' }} 
-                                    />
+                                    <div>
+                                        <img 
+                                            src={`data:image/png;base64,${char}`} 
+                                            alt=""
+                                        />
+                                    </div>
                                     <input className="token-input" type="text" 
                                         value={tokens.length > 0 ? tokens[pageIndex][rowIndex][colIndex] : ''} 
                                         onChange={(e) => updateTokens(pageIndex, rowIndex, colIndex, e.target.value)}
