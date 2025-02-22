@@ -34,7 +34,7 @@ main {
 }
 
 #char-list-row {
-    background-color: rgb(85, 85, 85);
+    background-color: rgb(70, 70, 70);
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 10px;
@@ -42,7 +42,7 @@ main {
     gap: 10px;
 }
 #char-list-row > * {
-    background-color: rgb(85, 85, 85);
+    background-color: rgb(70, 70, 70);
 }
 
 #char-list-item > button {
