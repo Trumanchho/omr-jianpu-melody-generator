@@ -37,6 +37,7 @@ input[type='file'] {
 #list {
     margin: 10px;
     border-radius: 10px;
+    border: 1px solid rgb(114, 117, 141);
     background-color: rgb(70, 70, 70);
     display: flex;
     flex-wrap: nowrap;
