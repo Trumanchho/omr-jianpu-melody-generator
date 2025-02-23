@@ -65,12 +65,12 @@ def generate_midi_file(token_arr, duration, steps=0, filename='song'):
                 note -= 12
             if 'u' in token: # change note length
                 duration /= 2
-            elif 't' in token:
-                duration /= 3
             elif 'w' in token:
                 duration /= 4
             if sharp:
                 note += 1
+            if 't' in token:
+                duration /= 3
             track.append(Message('note_on', note=note, velocity=64, time=0))
             track.append(Message('note_off', note=note, velocity=64, time=int( 480*duration)))
             sharp = False
