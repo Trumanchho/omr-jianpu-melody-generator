@@ -5,7 +5,8 @@ This tool allows users to scan images of Jianpu (numbered musical notation) shee
 [Current State](#current-state)  
 [Running The Web App](#running-the-web-app)  
 [Training & Testing](#training--testing)  
-[Symbol Table](#example-symbol-table)  
+[Limitations / Future Improvements](#limitations--future-improvements)  
+[Symbol Table](#example-token-table)  
 
 ### An Example
 
@@ -26,6 +27,12 @@ https://github.com/user-attachments/assets/47411c83-5ae8-4b37-bf13-0a6b6ae2bf29
 - Created React frontend to scan Jianpu sheets and generate melodies using latest model
 - Flask for backend
 - Improved segmentation results for connected underlines
+#### Features
+- Complete UI for uploading, generating, and editing melodies
+- Image preview for scanned pages
+- Melody playback and downloadable MIDI file
+- Custom key transcription and tempo adjusting
+- Manual editing for lines and individual symbols in case of hallucination
 
 ### Running the Web App
 **Requirements**
@@ -53,8 +60,15 @@ https://github.com/user-attachments/assets/47411c83-5ae8-4b37-bf13-0a6b6ae2bf29
 - The current model is [jianpu.model.keras](jianpu.model.keras) 
 - Lower epochs with sufficient data set size
 
-### Example Symbol Table
-|Class ID| 1  | 1h | 1u | 2  | 3  | 5  | 5l | 5u | 6  | 6lu| B  | D  | L  |
+### Limitations / Future improvements
+- Data is all self collected so the current model is trained on a very limited set of data. Most of the data is collected from scores created in Logic Pro.
+- Resolution of uploaded images may cause errors during symbol segmentation
+- Symbols connected by thick underlines or slurs may cause errors during symbol segmentation
+- Editing interface is quite "bare-bones". I plan to add keyboard shortcuts to make editing more efficient.
+- Editing interface displays token ID's instead of actual Jianpu Notation. It may benefit users if actual Jianpu Notation is displayed instead.
+
+### Example Token Table
+|Token| 1  | 1h | 1u | 2  | 3  | 5  | 5l | 5u | 6  | 6lu| B  | D  | L  |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|
 | Symbol |![1](images/1_0.PNG)|![1h](images/1h_0.PNG)|![1u](images/1u_0.PNG)|![2](images/2_0.PNG)|![3](images/3_0.PNG)|![5](images/5_0.PNG)|![5l](images/5l_0.PNG)|![5u](images/5u_0.PNG)|![6](images/6_0.PNG)|![6lu](images/6lu_0.PNG)|![B](images/B_0.PNG)|![D](images/D_0.PNG)|![L](images/L_0.PNG)|
 
