@@ -64,8 +64,9 @@ https://github.com/user-attachments/assets/47411c83-5ae8-4b37-bf13-0a6b6ae2bf29
 - Data is all self collected so the current model is trained on a very limited set of data. Most of the data is collected from scores created in Logic Pro.
 - Resolution of uploaded images may cause errors during symbol segmentation
 - Symbols connected by thick underlines or slurs may cause errors during symbol segmentation
-- Editing interface is quite "bare-bones". I plan to add keyboard shortcuts to make editing more efficient.
-- Editing interface displays token ID's instead of actual Jianpu Notation. It may benefit users if actual Jianpu Notation is displayed instead.
+- Ties are not detected. Notes within a tie will be generated individually (played individually)
+- Editing interface is quite "bare-bones". I plan to add keyboard shortcuts to make editing more efficient
+- Editing interface displays token ID's instead of actual Jianpu Notation. It may benefit users if actual Jianpu Notation is displayed instead
 
 ### Example Token Table
 |Token| 1  | 1h | 1u | 2  | 3  | 5  | 5l | 5u | 6  | 6lu| B  | D  | L  |
