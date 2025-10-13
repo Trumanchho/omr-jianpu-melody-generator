@@ -57,7 +57,7 @@ https://github.com/user-attachments/assets/47411c83-5ae8-4b37-bf13-0a6b6ae2bf29
 ### Training & Testing:
 - To train, run ``` python train.py ```. Takes data from ``` data ``` file (not included)
 - To test, run ``` python test.py ```. Tests data from ``` test ``` file (sample included)
-- The current model is [jianpu.model.keras](jianpu.model.keras) 
+- The current model is [jianpu.model.keras](flask-server/jianpu.model.keras) 
 - Lower epochs with sufficient data set size
 
 ### Limitations / Future improvements
