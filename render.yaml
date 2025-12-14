@@ -11,9 +11,11 @@ services:
     envVars:
       FLASK_ENV: production
 
-  - type: static
+  - type: web
     name: frontend
+    runtime: static
     rootDir: omr-project
     buildCommand: npm install && npm run build
+    staticPublishPath: dist
     publishPath: dist
     plan: free
