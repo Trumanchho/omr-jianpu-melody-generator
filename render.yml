@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: backend
+    env: docker
+    repo: https://github.com/Trumanchho/omr-jianpu-melody-generator
+    dockerfilePath: flask-server/Dockerfile
+    dockerContext: flask-server
+    plan: free
+    regions:
+      - oregon
+    envVars:
+      FLASK_ENV: production
+
+  - type: static
+    name: frontend
+    rootDir: omr-project
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    plan: free
