@@ -58,19 +58,7 @@ https://github.com/user-attachments/assets/47411c83-5ae8-4b37-bf13-0a6b6ae2bf29
 **Requirements**
 - [Docker Engine](https://docs.docker.com/engine/install/)
 
-**1. Start Flask server**
-```sh
-cd flask-server
-docker build -t backend .
-docker run --rm -p 5000:5000 backend
-```
-
-**2. Start React App**
-```sh
-cd omr-project
-docker build -t frontend .
-docker run --rm -p 5173:5173 frontend
-```
+Run `docker-compose up --build` for the first run or changes, and `docker-compose up` to use cached images.
 
 ### Training & Testing:
 - To train, run ``` python train.py ```. Takes data from ``` data ``` file (not included)
