@@ -2,15 +2,15 @@ services:
   - type: web
     runtime: docker
     name: backend
-    repo: https://github.com/jla524/omr-jianpu-melody-generator
-    branch: feat_deploy_to_render
+    repo: https://github.com/trumanchho/omr-jianpu-melody-generator
     plan: free
     dockerfilePath: flask-server/Dockerfile
+    dockerContext: flask-server
 
   - type: web
     runtime: docker
     name: frontend
-    repo: https://github.com/jla524/omr-jianpu-melody-generator
-    plan: free
+    repo: https://github.com/trumanchho/omr-jianpu-melody-generator
     branch: feat_deploy_to_render
     dockerfilePath: omr-project/Dockerfile
+    dockerContext: omr-project
