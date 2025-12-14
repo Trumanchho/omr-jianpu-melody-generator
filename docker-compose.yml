@@ -1,0 +1,24 @@
+version: '1.0'
+
+services:
+  frontend:
+    build:
+      context: ./omr-project
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://127.0.0.1:5001  # Internal Docker network URL for backend
+    depends_on:
+      - backend
+    tty: true
+
+  backend:
+    build:
+      context: ./flask-server
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5000"
+    environment:
+      - FLASK_ENV=production
+

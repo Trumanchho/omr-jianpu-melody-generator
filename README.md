@@ -1,12 +1,12 @@
 # OMR Melody Generator
 This tool allows users to scan images of Jianpu (numbered musical notation) sheet music and generate its melody digitally. The tool extracts Jianpu symbols from the sheet music which are then processed and fed into a CNN that predicts each note. All notes are compiled into a MIDI file that can be downloaded and played.
 
-[An Example](#an-example)  
-[Current State](#current-state)  
-[Running The Web App](#running-the-web-app)  
-[Training & Testing](#training--testing)  
-[Limitations / Future Improvements](#limitations--future-improvements)  
-[Symbol Table](#example-token-table)  
+[An Example](#an-example)
+[Current State](#current-state)
+[Running The Web App](#running-the-web-app)
+[Training & Testing](#training--testing)
+[Limitations / Future Improvements](#limitations--future-improvements)
+[Symbol Table](#example-token-table)
 
 ### An Example
 
@@ -54,10 +54,34 @@ https://github.com/user-attachments/assets/47411c83-5ae8-4b37-bf13-0a6b6ae2bf29
 - Then, run ```npm run dev```
 - The app should now be running on [localhost:5173](http://localhost:5173) (vite should serve on port 5173 by default)
 
+### Running in Docker
+**Requirements**
+- [Docker Engine](https://docs.docker.com/engine/install/)
+
+**Using Docker Compose**
+
+Run `docker-compose up --build` for the first run andchanges, or `docker-compose up` to use cached images.
+
+Alternatively, you can run the frontend and backend separately.
+
+**1. Start Flask server**
+```sh
+cd flask-server
+docker build -t backend .
+docker run --rm -p 5000:5000 backend
+```
+
+**2. Start React App**
+```sh
+cd omr-project
+docker build -t frontend .
+docker run --rm -p 5173:5173 frontend
+```
+
 ### Training & Testing:
 - To train, run ``` python train.py ```. Takes data from ``` data ``` file (not included)
 - To test, run ``` python test.py ```. Tests data from ``` test ``` file (sample included)
-- The current model is [jianpu.model.keras](flask-server/jianpu.model.keras) 
+- The current model is [jianpu.model.keras](flask-server/jianpu.model.keras)
 - Lower epochs with sufficient data set size
 
 ### Limitations / Future improvements
