@@ -3,7 +3,7 @@ FROM node:16-alpine AS build-step
 WORKDIR /app
 
 ENV PATH=/app/node_modules/.bin:$PATH
-ENV VITE_API_URL=http://127.0.0.1:5001
+ENV VITE_API_URL=https://backend-6hw8.onrender.com/
 
 COPY ./ ./
 RUN npm install
