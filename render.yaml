@@ -5,8 +5,6 @@ services:
     dockerfilePath: flask-server/Dockerfile
     plan: free
     region: oregon
-    envVars:
-      FLASK_ENV: production
 
   - type: web
     name: frontend
