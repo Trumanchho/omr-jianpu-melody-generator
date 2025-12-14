@@ -3,14 +3,15 @@ services:
     runtime: docker
     name: backend
     repo: https://github.com/trumanchho/omr-jianpu-melody-generator
+    branch: main
     plan: free
-    dockerfilePath: flask-server/Dockerfile
-    dockerContext: flask-server
+    dockerfilePath: ./flask-server/Dockerfile
+    dockerContext: ./flask-server
 
   - type: web
     runtime: docker
     name: frontend
     repo: https://github.com/trumanchho/omr-jianpu-melody-generator
-    branch: feat_deploy_to_render
-    dockerfilePath: omr-project/Dockerfile
-    dockerContext: omr-project
+    branch: main
+    dockerfilePath: ./omr-project/Dockerfile
+    dockerContext: ./omr-project
