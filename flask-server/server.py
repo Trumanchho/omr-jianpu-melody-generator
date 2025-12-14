@@ -37,14 +37,14 @@ def omrResults():
 
         return {"image": img_base64, "char_list": b64_char_list}
     else: # generate Jianpu predictions
-        
+
         data = request.get_json()
 
         if 'tokens' in data: # Tokens are given
             string = combine_tokens(data['tokens'])
             tokens = split_string(string)
             generate_midi_file(tokens, 120/data['bpm'], steps=data['steps'])
-            
+
         else: # Tokens are not given. Need to predict...
             img_list = []
             for row in data['char_list']:
@@ -54,21 +54,19 @@ def omrResults():
                     img = fileBuff2Img(b64decode)
                     img_row.append(img)
                 img_list.append(img_row)
-            
+
             tokens = split_string(predict_jianpu(img_list))
             generate_midi_file(tokens, 120/data['bpm'], steps=data['steps'])
-        
+
         with open(f"output_midi/song.mid", "rb") as midi_file:
             b64_midi_file = base64.b64encode(midi_file.read()).decode('utf-8')
 
         return {'b64_midi_file': b64_midi_file, 'tokens': tokens}
         #return send_from_directory('output_midi', 'song.mid', as_attachment=True ,mimetype='audio/midi')
         #play_notes(tokens, 1)
-        #return 
-            
-
-         
+        #return
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    os.makedirs('output_midi', exist_ok=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)
