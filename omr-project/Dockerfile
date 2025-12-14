@@ -8,5 +8,5 @@ ENV VITE_API_URL=http://127.0.0.1:5001
 COPY ./ ./
 RUN npm install
 
-EXPOSE 5173
+EXPOSE 8080
 CMD ["npm", "run", "dev", "--", "--host"]
