@@ -13,5 +13,5 @@ services:
     name: frontend
     repo: https://github.com/jla524/omr-jianpu-melody-generator
     branch: feat_deploy_to_render
-    dockerfilePath: ./omr-project/Dockerfile
+    dockerfilePath: ./omr-project/Dockerfile.render
     dockerContext: ./omr-project
